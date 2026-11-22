@@ -1,0 +1,23 @@
+{
+  "id": "graph_intersection_two_lines_unit_4b",
+  "date": "2026-11-21",
+  "task": "Find the intersection of y=-x and y=2x-6 for the MAI HL Unit 4B animation",
+  "chain": "EXIT EXIT EXIT MENU 5 NEG XTT EXE 2 XTT SUB 6 EXE SHIFT F3 NEG 6 EXE 1 0 EXE 2 EXE DOWN NEG 8 EXE 6 EXE 2 EXE EXIT UP UP PAUSE F6 PAUSE SHIFT F5 F5 PAUSE",
+  "v_window": {
+    "xmin": -6,
+    "xmax": 10,
+    "xscale": 2,
+    "ymin": -8,
+    "ymax": 6,
+    "yscale": 2
+  },
+  "screens": [
+    "equations",
+    "graph",
+    "gsolv",
+    "intersection"
+  ],
+  "result": "X=2 Y=-2 (INTSECT)",
+  "evidence": "Emulator replay from clean snapshot. Auto Play to the function list and drawn graph. Step Play for SHIFT, F5 (G-Solv), F5 (INTSECT), with the LCD inspected and saved after each relevant state. Window fields were not separately inspected and a second full replay was not run.",
+  "reusable_without_reverification": false
+}
