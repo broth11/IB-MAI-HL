@@ -92,7 +92,9 @@ const shortLabels={
   ab:'First bisector',ac:'Second bisector',bc:'Third bisector',candidate:'Draw the candidate bisector',
   'against-a':'Draw the first new bisector','against-b':'Compare with the second site',
   'against-c':'Compare with the third site','left-vertex':'End both edges at the first vertex',
-  first:'Radius at the first vertex',second:'Radius at the second vertex',estimate:'Estimate rainfall at the point'
+  first:'Radius at the first vertex',second:'Radius at the second vertex',estimate:'Estimate rainfall at the point',
+  rotate:'Rotate B into quadrant 4',tilted:'The tilted bisector','edge-ac':'Edge on PB(A,C)','edge-ad':'Edge on PB(D,A)',
+  'edge-bd':'Edge on PB(B,D)','edge-bc':'Edge on PB(B,C)',connect:'Join V1 to V2'
 };
 const json=x=>JSON.stringify(x).replaceAll('</','<\\/');
 function markup(cfg,index){

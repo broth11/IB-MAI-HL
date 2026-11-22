@@ -53,6 +53,9 @@ h1,h2,p{margin:0}
 .anim-steps ol{grid-template-columns:minmax(0,1fr);gap:5px}
 .anim-steps button{height:100%;padding:5px 8px}
 .anim-steps button b{font:750 17px/1.15 var(--sans)}
+.anim-steps ol:has(>li:nth-child(10)){gap:3px}   /* long sets (10+ steps) stay on one screen */
+.anim-steps ol:has(>li:nth-child(10)) button{padding:3px 8px}
+.anim-steps ol:has(>li:nth-child(10)) button b{font-size:15.5px}
 .anim-text{min-height:0;margin-top:8px;padding:7px 9px;box-shadow:none}
 .anim-read{margin-top:8px;padding-top:5px;max-width:none}
 .anim-read p{font-weight:650}

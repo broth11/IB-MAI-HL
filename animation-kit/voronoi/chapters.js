@@ -18,7 +18,9 @@ lesson('perpendicular-bisector','Perpendicular bisectors and equal distances','P
 ['midpoint','Bisect at a right angle',T`Mark $M(2,0)$. The bisector $x=2$ meets $[AB]$ at $90^\circ$, with $AM=MB=6$.`,'Vertical line x = 2 through midpoint M, with a right-angle square.'],
 ['move','Slide $P$ along the bisector','The triangles share $PM$ and have $AM=MB$. By Pythagoras, $PA=PB$.','P above the midpoint. Both right triangles have the same horizontal legs and the same vertical leg.',2.4],
 ['off','Move $P$ off the bisector','Both triangles have the same height. The horizontal leg to $B$ is shorter, so $PB<PA$.','P is to the right of x = 2. Segment PB is shorter than segment PA.',1.9],
-['summary','Perpendicular bisector rule','On $x=2$, $PA=PB$. To either side, one distance is shorter.','Two matching right triangles under P on x = 2.',.35,3.7]
+['rotate','Rotate $B$ into quadrant 4','Move $B$ to $(8,-4)$. Now $[AB]$ is neither horizontal nor vertical.','B turns about A to (8, −4), below the x-axis. The segment AB is now tilted.',2.2],
+['tilted','The bisector still works',T`$[AB]$ has midpoint $(2,-2)$ and gradient $-\tfrac13$, so its bisector is $y=3x-8$. For $P(3,1)$ on it, $PA=PB=\sqrt{50}$.`,'The line y = 3x − 8 crosses AB at its midpoint (2, −2) at a right angle. P(3, 1) on the line is joined to A and to B.',2.6],
+['summary','Perpendicular bisector rule','On the perpendicular bisector, $PA=PB$, whatever the direction of $[AB]$. Off it, one distance is shorter.','Tilted segment AB with its perpendicular bisector y = 3x − 8 and the point P(3, 1) joined to A and B.',.35,3.7]
 ]),
 lesson('graph-intersection','Find an intersection on the Casio fx‑CG50','Graph intersection','Casio fx-CG50',
 'G‑Solv locates the point that lies on both graphs.',
@@ -37,9 +39,9 @@ lesson('three-sites','Construct a Voronoi diagram from three sites','Three sites
 'Keep each ray where its two sites are tied for nearest.'],
 'The circumcentre is equidistant from all three sites.',[
 ['sites','Plot three sites','Join $A(-4,0)$, $B(8,0)$ and $C(0,4)$ to form a triangle.','Triangle with sites A, B and C at the specified coordinates.'],
-['ab',T`Draw $\mathrm{PB}(A,B)$`,T`$[AB]$ is horizontal. Its midpoint is $(2,0)$, so $\mathrm{PB}(A,B)$ is $x=2$.`,'Vertical bisector through (2, 0), with a right-angle square.'],
-['ac',T`Draw $\mathrm{PB}(A,C)$`,T`$[AC]$ has midpoint $(-2,2)$ and gradient $1$. Its bisector has gradient $-1$, so $y=-x$.`,'The line y = −x passes through midpoint (−2, 2) at a right angle to AC.'],
-['bc',T`Draw $\mathrm{PB}(B,C)$`,T`$[BC]$ has midpoint $(4,2)$ and gradient $-\tfrac12$. Its bisector has gradient $2$, so $y=2x-6$.`,'The line y = 2x − 6 passes through midpoint (4, 2) at a right angle to BC.'],
+['ab',T`Draw $\mathrm{PB}(A,B)$`,T`$[AB]$ is horizontal. Its midpoint is $(2,0)$, so $\mathrm{PB}(A,B)$ is $x=2$.`,'Vertical bisector through (2, 0), with a right-angle square.',3.2],
+['ac',T`Draw $\mathrm{PB}(A,C)$`,T`$[AC]$ has midpoint $(-2,2)$ and gradient $1$. Its bisector has gradient $-1$, so $y=-x$.`,'The line y = −x passes through midpoint (−2, 2) at a right angle to AC.',3.2],
+['bc',T`Draw $\mathrm{PB}(B,C)$`,T`$[BC]$ has midpoint $(4,2)$ and gradient $-\tfrac12$. Its bisector has gradient $2$, so $y=2x-6$.`,'The line y = 2x − 6 passes through midpoint (4, 2) at a right angle to BC.',3.2],
 ['vertex','Locate the circumcentre','The bisectors intersect at $V(2,-2)$, equidistant from $A$, $B$ and $C$.','All three bisectors cross at V(2, −2).'],
 ['radius','Calculate the radius',T`From $V$ to $A$, the coordinate changes have magnitudes $6$ and $2$, so $VA=\sqrt{6^2+2^2}=2\sqrt{10}$.`,'A right-angle square and legs of length 6 and 2 show how to find the radius. The circle passes through all three sites.',2.2],
 ['summary','Keep the three Voronoi rays','Keep only the rays where the tied pair of sites is nearest. Those rays bound the three cells.','Three shaded cells meet at V. The circumcircle touches all three sites.',.3,3.7]
@@ -52,8 +54,8 @@ T`Test points on the horizontal bisector $\mathrm{PB}(C,D)$.`,
 ['candidate',T`Draw $\mathrm{PB}(C,D)$`,'Every point on $y=0$ is equidistant from $C$ and $D$.','Dashed horizontal bisector of CD, perpendicular to the dashed vertical segment joining C and D.'],
 ['compare','Check which sites are nearest','Slide $P$ along $y=0$. Site $A$ wins for $x<0$ and $B$ wins for $x>3$. Between them, $C$ and $D$ tie.','The test point moves through an A-nearest region, a C and D tie, then a B-nearest region.',3.3],
 ['cut','Find the two cutoffs','For $P=(x,0)$, $PC^2=PD^2=x^2+16$. Equate this to $PA^2=(x+4)^2$ for $x=0$, or $PB^2=(x-8)^2$ for $x=3$.','Solid CD edge between V1 and V2, with dashed extensions beyond them.'],
-['rays','Keep the four outer rays',T`Apply the same test to $\mathrm{PB}(A,C)$, $\mathrm{PB}(A,D)$, $\mathrm{PB}(B,C)$ and $\mathrm{PB}(B,D)$.`,'Two rays extend from each vertex. A segment joins the vertices.'],
-['summary','Read the four cells','Every Voronoi edge is shared by two cells whose sites tie for nearest.','Four shaded Voronoi cells are bounded by one segment and four rays.',.3,3.7]
+['rays','Keep the four outer rays',T`Draw $\mathrm{PB}(A,C)$, $\mathrm{PB}(A,D)$, $\mathrm{PB}(B,C)$ and $\mathrm{PB}(B,D)$ as dashed lines. Apply the same test, then keep each ray where its two sites tie for nearest.`,'Four dashed bisectors, with a solid ray drawn over each from V1 or V2. A segment joins the vertices.',2.6],
+['summary','Read the four cells','Every Voronoi edge is shared by two cells whose sites tie for nearest.','Four shaded Voronoi cells are bounded by one segment and four rays, with the five bisectors as faint dashed lines.',.3,3.7]
 ]),
 lesson('add-site','Add a fourth site to a Voronoi diagram','Add a fourth site','Draw cell $D$ and revise the old edges',
 'Cell $D$ is the overlap of the three half-planes in which $D$ is at least as close as each original site.',
@@ -65,7 +67,12 @@ lesson('add-site','Add a fourth site to a Voronoi diagram','Add a fourth site','
 ['against-a',T`Draw $\mathrm{PB}(D,A)$`,'Draw $y=x$ and keep the side that contains $D$.','D and A are connected by a construction segment, with its bisector at a right angle.'],
 ['left-vertex','End both edges at $V_1$',T`$\mathrm{PB}(D,A)$, $y=x$, meets $\mathrm{PB}(A,C)$, $y=-x$, at $V_1(0,0)$. Keep both rays to the left of $V_1$.`,'Two dashed bisectors cross at V1. The two solid rays on the left both terminate there.',2.2],
 ['against-b','Compare $D$ with $B$',T`Use $\mathrm{PB}(B,D)$, $y=-2x+6$, to trim cell $D$ again.`,'A second bisector cuts away part of D’s possible territory.'],
-['against-c','Compare $D$ with $C$',T`Use $\mathrm{PB}(C,D)$, $y=0$. The new edge joins $V_1(0,0)$ to $V_2(3,0)$.`,'The new cell D appears below the CD edge, with two vertices.',2.6],
+['against-c','Compare $D$ with $C$',T`Use $\mathrm{PB}(C,D)$, $y=0$, to trim cell $D$ a third time.`,'The third bisector, y = 0, cuts cell D down to its final size.',2.6],
+['edge-ac',T`Edge on $\mathrm{PB}(A,C)$`,T`Start at the outside. Draw along $\mathrm{PB}(A,C)$ until it meets the adjacent bisector $\mathrm{PB}(D,A)$ at $V_1(0,0)$.`,'A solid edge runs along y = −x from the top-left corner and stops at V1(0, 0).',2],
+['edge-ad',T`Edge on $\mathrm{PB}(D,A)$`,T`Next round the outside: draw along $\mathrm{PB}(D,A)$ until it meets $\mathrm{PB}(A,C)$ at $V_1$.`,'A second solid edge runs along y = x from the bottom-left and stops at V1.',2],
+['edge-bd',T`Edge on $\mathrm{PB}(B,D)$`,T`Draw along $\mathrm{PB}(B,D)$ until it meets the adjacent bisector $\mathrm{PB}(B,C)$ at $V_2(3,0)$.`,'A solid edge runs along y = −2x + 6 from the bottom-right and stops at V2(3, 0).',2],
+['edge-bc',T`Edge on $\mathrm{PB}(B,C)$`,T`Draw along $\mathrm{PB}(B,C)$ until it meets $\mathrm{PB}(B,D)$ at $V_2$.`,'A solid edge runs along y = 2x − 6 from the top-right and stops at V2.',2],
+['connect',T`Join $V_1$ to $V_2$`,T`Finish with the centre edge. It lies on $\mathrm{PB}(C,D)$ and joins $V_1(0,0)$ to $V_2(3,0)$.`,'The segment from V1 to V2 completes the diagram, and the four cells are shaded.',2,3],
 ['summary','Compare before and after',T`The $AC$ and $BC$ edges are shortened. The old $AB$ edge disappears, and the new $CD$ edge joins $V_1$ to $V_2$.`,'Before insertion there is one vertex. After insertion there are two.',.3,3.7]
 ]),
 lesson('largest-empty-circle','Choose between two empty circles','Largest Empty Circle problem','Compare distances to the nearest town',

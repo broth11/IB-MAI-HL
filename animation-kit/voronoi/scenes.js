@@ -122,6 +122,12 @@ function graph(body) {
   return '<clipPath id="plot"><rect x="'+sx(box[0])+'" y="'+sy(box[3])+'" width="'+((box[2]-box[0])*scale)+'" height="'+((box[3]-box[1])*scale)+'"/></clipPath>'+
   '<g clip-path="url(#plot)">'+grid()+body+'</g><rect x="'+sx(box[0])+'" y="'+sy(box[3])+'" width="'+((box[2]-box[0])*scale)+'" height="'+((box[3]-box[1])*scale)+'" fill="none" stroke="@line"/>';
 }
+function pulse(pt,color,f) {      // one expanding ring; f runs 0 to 1 per pulse, nothing drawn outside it
+  if(!(f>0&&f<1)) return '';
+  return circle(pt,8+18*f,color,3.2,'none',1-f)+circle(pt,8,color,0,color,.28*(1-f));
+}
+function pulses(pt,color,u,n=2) { return u>0&&u<1?pulse(pt,color,(u*n)%1):''; }
+const clamp01=x=>Math.max(0,Math.min(1,x)), ease=x=>{x=clamp01(x);return x*x*(3-2*x);};
 function visuallyHiddenAtStart(p,s) {return '<g opacity="'+Math.min(1,p*2.4)+'">'+s+'</g>';}
 function callout(a,b='',color='@ink') {
   return text(300,537,a,{size:24,color,weight:800})+(b?text(300,568,b,{size:20,color:'@muted',weight:600}):'');
@@ -133,6 +139,7 @@ function screen(data, keys, hint, p) {
     text(300,523,hint,{size:20,color:'@muted'}));
 }
 function bisector(i,p) {
+  if(i>=4) return bisectorTilted(i,p);
   const P=i<2?[2,4]:i===2?[2,mix([0,1],[0,5],p)[1]]:i===3?[2+2.3*p,5]:[2,4];
   const M=[2,0], A=sites.A,B=sites.B;
   let g=edge([A,B],'@dot',2.8);
@@ -151,7 +158,27 @@ function bisector(i,p) {
     ['$PA=PB$ exactly when $x=2$','The perpendicular bisector is the line of ties.']];
   return graph(g)+callout(...copy[i]);
 }
-function bisectorThree(i,p) {
+function bisectorTilted(i,p) {
+  const A=sites.A, B1=[8,-4], M1=[2,-2], P1=[3,1];
+  const th=Math.atan2(B1[1]-A[1],B1[0]-A[0]), r1=dist(A,B1);
+  const k=i===4?p:1, r=12+(r1-12)*k;
+  const B=[A[0]+r*Math.cos(th*k),A[1]+r*Math.sin(th*k)];
+  let g=edge([A,B],'@dot',2.8);
+  if(i===4) g+='<g opacity="'+(1-p)+'">'+edge(fullLines.AB,'@b',3.4)+point([2,0],'M',0,26)+'</g>';
+  if(i>=5) {
+    const q=i===5?ease(p/.55):1;
+    g+=edge(lineRange(M1,[1,3]),'@b',3.4,'',q)+point(M1,'M',-14,8,'@ink','end');
+    if(q>.64) g+=rightSquare(M1,[B1[0]-A[0],B1[1]-A[1]],[-(B1[1]-A[1]),B1[0]-A[0]]);
+    const s2=i===5?ease((p-.55)/.45):1;
+    if(s2>0) g+='<g opacity="'+s2+'">'+line(A,P1,'@b',3)+line(B1,P1,'@a',3)+point(P1,'P',-12,-10,'@ink','end')+'</g>';
+  }
+  g+=point(A,'A(-4, 0)',-11,-12,colors.A,'end')+point(B,i===4&&p<.9?'B':'B(8, -4)',-8,25,colors.B,'end');
+  const copy={4:['Rotate $B$ to $(8,-4)$','Now $[AB]$ is neither horizontal nor vertical.'],
+    5:['$PA=PB=\\sqrt{50}$','The bisector $y=3x-8$ still gives equal distances.'],
+    6:['$PA=PB$ exactly on the bisector','It works for any positions of $A$ and $B$.']};
+  return graph(g)+callout(...copy[i]);
+}
+function bisectorThree(i,p,_c,tm=1) {
   let g='';
   const triangle=line(sites.A,sites.B,'@dot',2,'6 7')+line(sites.A,sites.C,'@dot',2,'6 7')+line(sites.B,sites.C,'@dot',2,'6 7');
   if(i===6) {
@@ -160,8 +187,13 @@ function bisectorThree(i,p) {
     g+=triangle;
     ['AB','AC','BC'].forEach((pair,j)=>{
       if(i<j+1) return;
-      const midpoint=mix(sites[pair[0]],sites[pair[1]],.5);
-      g+=edge(fullLines[pair],i===j+1?'@b':'@dot',i===j+1?3.5:2.5,i===j+1?'':'7 6',i===j+1?p:1)+circle(midpoint,3.1,'@surface',1.5,'@ink')+(i!==j+1||p>.64?bisectorSquare(pair):'');
+      const midpoint=mix(sites[pair[0]],sites[pair[1]],.5), now=i===j+1;
+      const draw=now?ease((tm-.55)/.45):1;           // now: pulse the sites (0-.32), then the midpoint (.32-.55), then draw
+      if(now) g+=line(sites[pair[0]],sites[pair[1]],'@ink',2.6,'6 7')+pulses(sites[pair[0]],colors[pair[0]],tm/.32)+pulses(sites[pair[1]],colors[pair[1]],tm/.32);
+      if(draw>0) g+=edge(fullLines[pair],now?'@b':'@dot',now?3.5:2.5,now?'':'7 6',draw);
+      if(!now||tm>=.32) g+=circle(midpoint,3.1,'@surface',1.5,'@ink');
+      if(now) g+=pulses(midpoint,'@ink',(tm-.32)/.23);
+      if(!now||draw>.64) g+=bisectorSquare(pair);
     });
   }
   if(i>=4) g+=point(V,'V (2, −2)',14,24,'@ink','start');
@@ -181,13 +213,13 @@ function bisectorThree(i,p) {
     ['One vertex, three cells','The circle reaches all three sites.']];
   return graph(g)+callout(...copy[i]);
 }
-function cutoff(i,p) {
+function cutoff(i,p,_c,tm=1) {
   let g='';
   if(i===0||i===1) g+=line(sites.C,sites.D,'@dot',2,'6 5')+
     edge(fullLines.CD,'@dot',3,'7 6',i===0?p:1)+(i>0||p>.62?bisectorSquare('CD'):'');
   if(i===1) {
     const q=[-2+6*p,0], nearest=q[0]<0?'A':q[0]>3?'B':null;
-    for(const k of nearest?'CD'+nearest:'CD') g+=line(q,sites[k],k===nearest?'@a':'@pos',k===nearest?3.7:2.7);
+    for(const k of nearest?'CD'+nearest:'CD') g+=line(q,sites[k],k===nearest?'@a':'@pos',k===nearest?3.7:2.7)+(tm<1?pulse(sites[k],colors[k],(tm*7)%1):'');
     g+=point(q,'P',0,27);
     g+=label(q,nearest?'$'+nearest+'$ is nearer':'$C$ and $D$ tie for nearest',0,-47,'@ink','middle',18);
   }
@@ -196,18 +228,23 @@ function cutoff(i,p) {
     g+=edge(edges4.CD,'@b',4,'',i===2?p:1)+vertices();
   }
   if(i>=3) {
-    if(i===4) g=cells('ABCD')+edges(edges4)+vertices();
-    else for(const [k,pair] of Object.entries(edges4)) if(k!=='CD') g+=edge(pair,'@b',3.2,'',p);
+    const outer=['AC','AD','BC','BD'];
+    if(i===4) g=cells('ABCD')+outer.concat('CD').map(k=>edge(fullLines[k],'@dot',2,'6 6',1,.45)).join('')+edges(edges4)+vertices();
+    else {                                          // dashed bisectors first, then the rays on top
+      const d=ease(p/.45), r=ease((p-.45)/.55);
+      g+=outer.map(k=>edge(fullLines[k],'@dot',2.2,'7 6',d)).join('');
+      if(r>0) g+=outer.map(k=>edge(edges4[k],'@b',3.2,'',r)).join('');
+    }
   }
   g+=siteDots('ABCD');
   const copy=[['Draw $\\mathrm{PB}(C,D)$','Every point on $y=0$ ties $C$ and $D$.'],['Slide a test point','$A$ or $B$ can be closer than both $C$ and $D$.'],
     ['Keep the segment $0\\le x\\le3$','$x^2+16=(x+4)^2$ or $(x-8)^2$'],
-    ['Extend the four outer rays','Each ray keeps the same nearest pair.'],
+    ['Dash the four bisectors, then keep the rays','Each ray keeps the same nearest pair.'],
     ['Keep only ties for nearest','Four rays and one segment bound the four cells.']];
   return graph(g)+callout(...copy[i]);
 }
 function addSite(i,p) {
-  if(i===6) {
+  if(i===11) {
     function miniature(g,x) {return '<g transform="translate('+x+' 175) scale(.46)">'+graph(g).replaceAll('id="plot"','id="mini'+x+'"').replaceAll('#plot','#mini'+x)+' </g>'; }
     const earlier=cells('ABC')+edges(edges3)+point(V,'V',13,16,'@ink','start')+siteDots('ABC');
     const after=cells('ABCD')+edges(edges4)+vertices()+siteDots('ABCD');
@@ -240,14 +277,32 @@ function addSite(i,p) {
     g+=line(sites.D,sites[opponent],'@dot',1.5,'5 5');
     if(p>.65) g+=bisectorSquare(seq[j],'@nt');
   }
-  if(i===5&&p>.72) g='<g opacity="'+((p-.72)/.28)+'">'+cells('ABCD')+edges(edges4)+vertices()+siteDots('ABCD')+'</g>'+ '<g opacity="'+((1-p)/.28)+'">'+g+'</g>';
+  if(i>=6) {                                       // go round the outside, then join the vertices
+    g=i===10?cells('ABCD',.12*p):'';
+    g+=['AC','AD','BD','BC','CD'].map(k=>edge(fullLines[k],'@dot',2,'7 6')).join('');
+    const order=['AC','AD','BD','BC'];
+    order.forEach((k,j)=>{
+      if(i<6+j) return;
+      const [v,far]=edges4[k], q=i===6+j?ease(p):1;
+      g+=line(far,mix(far,v,q),'@b',3.6);
+    });
+    if(i===10) g+=edge(edges4.CD,'@b',4,'',ease(p));
+    const v1=i>6||(i===6&&p>.95), v2=i>8||(i===8&&p>.95);
+    if(v1) g+=point(V1,'V_1(0,0)',12,-13,'@ink','start');
+    if(v2) g+=point(V2,'V_2(3,0)',13,24,'@ink','start');
+  }
   g+=siteDots(i===0?'ABC':'ABCD');
   const copy=[['The original three cells','$A$, $B$ and $C$ meet at $V$.'],
     ['Insert $D$ below the $x$-axis','At $V$, $VD = \\sqrt{8}$ and $VA = \\sqrt{40}$.'],
     ['Draw $\\mathrm{PB}(D,A)$','Keep the side of $y=x$ containing $D$.'],
     ['Both edges end at $V_1(0,0)$','$\\mathrm{PB}(D,A)$ meets $\\mathrm{PB}(A,C)$.'],
     ['Compare $D$ with $B$','Trim again at $y=-2x+6$.'],
-    ['Compare $D$ with $C$','The upper edge of cell $D$ lies on $y=0$.']];
+    ['Compare $D$ with $C$','The upper edge of cell $D$ lies on $y=0$.'],
+    ['Edge on $\\mathrm{PB}(A,C)$','Draw in until it meets $\\mathrm{PB}(D,A)$ at $V_1$.'],
+    ['Edge on $\\mathrm{PB}(D,A)$','Draw in until it meets $\\mathrm{PB}(A,C)$ at $V_1$.'],
+    ['Edge on $\\mathrm{PB}(B,D)$','Draw in until it meets $\\mathrm{PB}(B,C)$ at $V_2$.'],
+    ['Edge on $\\mathrm{PB}(B,C)$','Draw in until it meets $\\mathrm{PB}(B,D)$ at $V_2$.'],
+    ['Join $V_1$ to $V_2$','The centre edge lies on $\\mathrm{PB}(C,D)$.']];
   return graph(g)+callout(...copy[i]);
 }
 function emptyCircle(i,p) {
@@ -306,6 +361,6 @@ function render(index,config,t,captures) {
     '<rect width="600" height="600" fill="@surface"/>'+
     text(300,49,config.stage,{size:34,weight:850})+
     text(300,80,config.subtitle,{size:20,weight:600,color:'@muted'})+
-    scenes[index](i,p,captures)+
+    scenes[index](i,p,captures,time)+
     text(578,589,'MAI HL · Unit 4B',{size:13,color:'@muted',align:'end',weight:650})+'</svg>';
 }

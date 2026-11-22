@@ -15,7 +15,7 @@ const target=pathToFileURL(path.join(__dirname,'../outputs/Voronoi Diagrams.html
   assert.equal(await page.$$eval('.lesson',els=>els.length),7);
   const first='#anim-'+lessons[0].id;
   await page.click(first+' [data-play]');
-  assert.equal(await page.$eval(first+' [data-play]',e=>e.textContent),'Play');
+  assert.equal(await page.$eval(first+' [data-play]',e=>e.getAttribute('aria-label')),'Play');   // icon button: the label says what a press does
   const t=await page.$eval(first+' [data-stage]',e=>e.anim.time());
   await new Promise(r=>setTimeout(r,300));
   assert.equal(await page.$eval(first+' [data-stage]',e=>e.anim.time()),t);
@@ -25,7 +25,8 @@ const target=pathToFileURL(path.join(__dirname,'../outputs/Voronoi Diagrams.html
   await page.waitForFunction(sel=>document.querySelector(sel+' .anim-steps li:nth-child(3) button').getAttribute('aria-current')==='step',{},first);
   for(const [i,cfg] of lessons.entries()) {
     const root='#anim-'+cfg.id;
-    await page.$eval(root,e=>e.scrollIntoView({block:'start'}));
+    await page.evaluate(id=>{location.hash=id;},cfg.id);   // the page shows one animation at a time
+    await page.waitForFunction(id=>!document.getElementById(id).hidden,{},cfg.id);
     await page.waitForSelector(root+' [data-stage] svg');
     await page.click(root+' [data-tab=see]');
     assert.equal(await page.$eval(root+' .anim-see[role=tabpanel]',e=>e.hidden),false);
@@ -33,7 +34,7 @@ const target=pathToFileURL(path.join(__dirname,'../outputs/Voronoi Diagrams.html
     assert.equal(await page.$eval(root+' [data-tab=watch]',e=>e.getAttribute('aria-selected')),'true');
     await page.click(root+' [data-mode=stills]');
     await page.click(root+' .anim-steps li:first-child button');
-    assert.equal(await page.$eval(root+' .anim-count',e=>e.textContent),'Step 1 of '+cfg.chapters.length);
+    assert.equal(await page.$eval(root+' .anim-count .count-full',e=>e.textContent),'Step 1 of '+cfg.chapters.length);
     for(const [j,chapter] of cfg.chapters.entries()){
       if(j>0) await page.click(root+' [data-next]');
       assert.equal(await page.$eval(root+' .anim-still',el=>el.getAttribute('aria-label')),chapter.alt);
@@ -59,7 +60,7 @@ const target=pathToFileURL(path.join(__dirname,'../outputs/Voronoi Diagrams.html
   await page.waitForSelector('#anim-graph-intersection [data-stage] svg');
   assert.equal(await page.$eval('body',e=>e.scrollWidth),375);
   await page.click('#anim-graph-intersection [data-mode=stills]');
-  await page.click('#anim-graph-intersection .anim-steps li:last-child button');
+  await page.$eval('#anim-graph-intersection .step-picker',(e,n)=>{e.value=String(n-1);e.dispatchEvent(new Event('change'));},lessons[1].chapters.length);   // phones pick steps from a dropdown
   await (await page.$('#anim-graph-intersection .anim-frame')).screenshot({path:path.join(__dirname,'mobile-casio.png')});
   await page.emulateMediaFeatures([{name:'prefers-reduced-motion',value:'reduce'}]);
   await page.reload();
