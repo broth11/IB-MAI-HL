@@ -1,0 +1,1072 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Unit 6: Matrices · Matrices</title>
+<link rel="stylesheet" href="assets/vendor/katex/katex.min.css"><script src="assets/vendor/katex/katex.min.js"></script>
+<style>button{font:inherit;color:inherit;background:none;border:0;padding:0;margin:0;cursor:pointer;text-align:left}
+
+:root{--ink:#0b0b0b;--paper:#f6f3ec;--grid:#e4dfd2;--orange:#ff4d00;--blue:#4b5cff;--indigo:#6366f1;--indigo-h:#4f46e5;--sh:4px 4px 0 var(--ink);--sans:ui-sans-serif,-apple-system,"Helvetica Neue",Arial,sans-serif;--mono:ui-monospace,"SF Mono",Menlo,monospace}
+*{box-sizing:border-box;margin:0}
+body{font:15px/1.5 var(--sans);color:var(--ink);background:var(--paper);background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);background-size:24px 24px;padding:28px 16px 64px}
+.wrap{max-width:1296px;margin:0 auto}
+.hero{position:relative;background:var(--orange);background-image:repeating-linear-gradient(135deg,rgba(255,255,255,.08) 0 10px,transparent 10px 20px);border:3px solid var(--ink);box-shadow:8px 8px 0 var(--ink);padding:26px 28px 24px;margin-bottom:34px}
+.hero .eyebrow{font:800 13px var(--mono);letter-spacing:.14em;text-transform:uppercase;color:#fff}
+.hero h1{font:900 clamp(30px,5vw,54px)/1.02 var(--sans);text-transform:uppercase;letter-spacing:.01em;color:#fff;margin:8px 0 12px;max-width:16ch;text-shadow:3px 3px 0 var(--ink)}
+.hero p{max-width:62ch;background:#fff;border:2px solid var(--ink);box-shadow:var(--sh);padding:10px 14px;font-weight:500}
+.sticker{position:absolute;right:22px;top:20px;background:#fff;border:2px solid var(--ink);box-shadow:var(--sh);padding:6px 14px;font:900 15px var(--sans);letter-spacing:.1em;text-transform:uppercase;transform:rotate(4deg)}
+.units{display:flex;gap:8px;margin:0 0 26px;flex-wrap:wrap}
+.units a{font:800 13px var(--mono);border:2px solid var(--ink);background:#fff;padding:6px 14px;box-shadow:3px 3px 0 var(--ink);color:var(--ink);text-decoration:none;transition:transform .15s,box-shadow .15s}
+.units a:hover{transform:translate(-1px,-1px);box-shadow:5px 5px 0 var(--ink)}
+.units a.on{background:var(--blue);color:#fff}
+.card{background:#fff;border:3px solid var(--ink);box-shadow:8px 8px 0 var(--ink);padding:20px 22px 18px;margin-bottom:34px;background-image:linear-gradient(#f1eee6 1px,transparent 1px);background-size:100% 26px}
+.card-top{display:grid;grid-template-columns:auto 1fr;gap:18px;align-items:center}
+.num{font:900 44px/1 var(--sans);background:var(--blue);color:#fff;border:3px solid var(--ink);box-shadow:var(--sh);padding:8px 12px;min-width:76px;text-align:center}
+h2{font:900 clamp(19px,2.4vw,26px)/1.1 var(--sans);text-transform:uppercase;letter-spacing:.01em}
+.chips{display:flex;gap:6px;flex-wrap:wrap;align-items:center;margin-top:8px}
+.lab{font:800 11px var(--mono);letter-spacing:.1em;text-transform:uppercase;color:#555;margin-right:2px}
+.chip{font:800 12px var(--mono);border:2px solid var(--ink);background:#e9ecff;padding:1px 8px;box-shadow:2px 2px 0 var(--ink)}
+.card-body{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.7fr);gap:30px;margin-top:18px}
+h3{font:800 11.5px var(--mono);letter-spacing:.12em;text-transform:uppercase;color:#555;margin-bottom:7px}
+ul{list-style:none;padding:0}li{position:relative;padding-left:20px;margin-bottom:6px;font-size:14px}
+li::before{content:"";position:absolute;left:0;top:.38em;width:9px;height:9px;background:var(--orange);border:2px solid var(--ink)}
+.card-body p{font-size:14.5px}
+code{font:.92em var(--mono);background:#eee;padding:0 4px}
+.cut{height:0;margin:18px 0 14px;border-top:2px dashed #999}
+.cols{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:22px}.col h3{margin-bottom:10px}.fbtns{display:grid;grid-template-columns:1fr;gap:10px}
+.fbtn{display:flex;align-items:center;gap:10px;min-height:42px;padding:8px 12px;font:800 13px/1.2 var(--sans);text-transform:uppercase;letter-spacing:.03em;color:var(--ink);text-decoration:none;background:#fff;border:2px solid var(--ink);border-radius:4px;box-shadow:var(--sh);transition:transform .12s,box-shadow .12s,background .12s;min-width:0}
+.fbtn span{min-width:0;overflow-wrap:anywhere}
+.fbtn em{font:700 10px var(--mono);font-style:normal;color:#666}
+.fbtn svg{flex:none;color:var(--blue)}
+.fbtn:hover{transform:translate(2px,2px);box-shadow:2px 2px 0 var(--ink);background:var(--blue);color:#fff}
+.fbtn:hover svg{color:#fff}.fbtn:active{transform:translate(4px,4px);box-shadow:0 0 0 var(--ink)}
+.none{color:#777;font-size:13px}
+.foot{font:700 12px var(--mono);color:#555;text-align:center;margin-top:10px}
+@media(max-width:760px){.cols{grid-template-columns:1fr;gap:16px}.card-top{grid-template-columns:auto 1fr}.card-body{grid-template-columns:1fr;gap:16px}.fbtns{grid-template-columns:1fr}.fbtn{min-height:46px}.sticker{position:static;display:inline-block;margin-bottom:12px}}
+@media(prefers-reduced-motion:reduce){*{transition:none!important;animation-duration:.01s!important}}
+body{padding-top:0}
+.topbar{position:sticky;top:0;z-index:20;background:var(--ink);border-bottom:3px solid var(--ink);margin:0 -16px 26px;padding:0 16px}
+.topbar-in{max-width:1296px;margin:0 auto;display:flex;align-items:center;gap:14px;flex-wrap:wrap;padding:10px 0}
+.topbar .course{font:900 14px var(--sans);letter-spacing:.08em;text-transform:uppercase;color:#fff;margin-right:auto}
+.topbar nav{display:flex;gap:8px}
+.topbar .u{font:800 13px var(--mono);min-width:44px;text-align:center;border:2px solid #fff;background:#fff;color:var(--ink);padding:5px 12px;text-decoration:none;box-shadow:3px 3px 0 var(--orange);transition:transform .12s,box-shadow .12s}
+.topbar .u:hover{transform:translate(2px,2px);box-shadow:1px 1px 0 var(--orange)}
+.topbar .u.on{background:var(--blue);color:#fff}
+.part{display:flex;align-items:stretch;margin:44px 0 22px;border:3px solid var(--ink);box-shadow:8px 8px 0 var(--ink);background:#fff;scroll-margin-top:84px}
+.part .code{font:900 34px/1 var(--sans);background:var(--orange);color:#fff;padding:12px 18px;border-right:3px solid var(--ink);display:flex;align-items:center;text-shadow:2px 2px 0 var(--ink)}
+.part .pt{padding:10px 18px;display:flex;flex-direction:column;justify-content:center}
+.part .pt b{font:900 clamp(17px,2.2vw,24px)/1.1 var(--sans);text-transform:uppercase}
+.part .pt span{font:800 11px var(--mono);letter-spacing:.1em;text-transform:uppercase;color:#555;margin-top:3px}
+.jump{display:flex;gap:8px;margin:0 0 -18px;flex-wrap:wrap}
+.jump button{font:800 13px var(--mono);border:2px solid var(--ink);background:#fff;padding:5px 12px;box-shadow:3px 3px 0 var(--ink);color:var(--ink);text-decoration:none}
+.jump button:hover{background:var(--blue);color:#fff}
+
+div.card-top{cursor:pointer}
+div.card-top:hover h2,.lr-head:hover h2{color:var(--blue)}
+.code-tag{display:block;font:800 11px var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--blue);margin-bottom:3px}
+.card .chips{margin:12px 0 0}
+div.blk{display:block;cursor:pointer;padding:8px 10px;margin:-8px -10px;border:2px solid transparent;transition:border-color .12s,background .12s}
+div.blk:hover{border-color:var(--ink);background:#fffbe6}
+.more{font:800 11px var(--mono);color:#555;margin-top:2px}
+.lens{display:flex;gap:8px;flex-wrap:wrap;margin:0 0 24px}
+.tab{font:800 13px var(--mono);border:2px solid var(--ink);background:#fff;padding:6px 13px;box-shadow:3px 3px 0 var(--ink);color:var(--ink);text-decoration:none;transition:transform .12s,box-shadow .12s,background .12s}
+.tab:hover{transform:translate(2px,2px);box-shadow:1px 1px 0 var(--ink)}
+.tab.on{background:var(--blue);color:#fff}
+.jump{margin:0 0 -18px}
+.lr-head{display:grid;grid-template-columns:auto 1fr;gap:16px;align-items:center;cursor:pointer;margin-bottom:14px}
+.lr-head .num{font-size:30px;min-width:60px;padding:6px 8px}
+.lrow{padding:16px 20px;box-shadow:6px 6px 0 var(--ink);margin-bottom:26px}
+.lr-body ul{columns:2;column-gap:36px}.lr-body li{break-inside:avoid}
+.lr-body .cols{margin-top:2px}
+.stds{display:grid;grid-template-columns:62px 1fr;gap:8px 12px}
+.stds dt{font:800 12px var(--mono);border:2px solid var(--ink);background:#e9ecff;padding:1px 6px;height:fit-content;text-align:center;box-shadow:2px 2px 0 var(--ink)}
+.stds dd{font-size:13.5px}
+body.locked{overflow:hidden}
+.sheet{position:fixed;inset:0;z-index:40;overflow:auto;background:var(--paper);background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);background-size:24px 24px;padding:0 16px 60px;outline:none}
+.sheet-bar{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:16px 0}
+.back{font:800 13px var(--mono);border:2px solid var(--ink);background:#fff;padding:6px 12px;box-shadow:3px 3px 0 var(--ink);color:var(--ink);text-decoration:none}
+.back:hover{background:var(--blue);color:#fff}
+.pager{display:flex;gap:8px}.pager button,.pager .off{font:800 13px var(--mono);border:2px solid var(--ink);background:#fff;padding:6px 12px;box-shadow:3px 3px 0 var(--ink);color:var(--ink);text-decoration:none}
+.pager .off{opacity:.35;box-shadow:none}.pager button:hover{background:var(--blue);color:#fff}
+.s-head{display:grid;grid-template-columns:auto 1fr;gap:20px;align-items:center;background:var(--orange);border:3px solid var(--ink);box-shadow:8px 8px 0 var(--ink);padding:20px 24px;margin:8px 0 30px}
+.s-head .code-tag{color:#fff}
+.s-head h2{font:900 clamp(24px,3.6vw,42px)/1.05 var(--sans);color:#fff;text-shadow:3px 3px 0 var(--ink)}
+.s-head .num{font-size:48px;background:#fff;color:var(--ink)}
+.s-grid{display:grid;grid-template-columns:minmax(0,3fr) minmax(0,2fr);gap:30px;align-items:start;margin-bottom:26px}
+.quad{display:grid;grid-template-columns:1fr 1fr;gap:22px;margin:22px 0}
+.sec{background:#fff;border:3px solid var(--ink);box-shadow:6px 6px 0 var(--ink);padding:16px 18px;margin-bottom:0}
+.s-main>.sec{margin-bottom:0}.s-main>.sec+.quad+.sec{margin-top:0}
+.sec.focus{outline:4px solid var(--blue);outline-offset:3px}
+.s-side .sec{margin-bottom:0}
+@media(max-width:860px){.s-grid{grid-template-columns:1fr}.quad{grid-template-columns:1fr}.lr-body ul{columns:1}.s-head{grid-template-columns:1fr}}
+
+a,a:hover,a:focus,a:visited,a:active{text-decoration:none!important}
+
+*{text-decoration:none!important;text-decoration-color:transparent!important}
+
+button.fbtn{width:100%;text-align:left}
+
+.card{position:relative}
+.card-top,.lr-head{padding-right:128px}
+.qr{position:absolute;top:14px;right:16px;width:102px;height:102px;padding:0;background:#fff;border:3px solid var(--ink);box-shadow:var(--sh);cursor:pointer;z-index:2;transition:transform .12s}
+.qr:hover{transform:translate(-2px,-2px)}
+.qr:focus-visible{outline:3px solid var(--blue);outline-offset:3px}
+.qr svg{display:block;width:100%;height:100%}
+.qrm{position:fixed;inset:0;z-index:80;background:rgba(11,11,11,.72);display:flex;align-items:center;justify-content:center;padding:20px;cursor:pointer}
+.qrm-card{width:calc(min(68vh,80vw) + 52px);cursor:default;background:#fff;border:4px solid var(--ink);box-shadow:10px 10px 0 var(--ink);padding:22px;display:grid;gap:16px;max-width:96vw;max-height:96vh}
+.qrm-big{width:min(68vh,80vw);aspect-ratio:1}
+.qrm-big svg{display:block;width:100%;height:100%}
+.qrm-cap{display:grid;gap:4px}
+.qrm-cap b{font:900 clamp(18px,3vh,30px)/1.1 var(--sans);text-transform:uppercase}
+.qrm-url{font:600 13px var(--mono);color:#555;word-break:break-all}
+@media(max-width:760px){.qr{width:83px;height:83px;top:10px;right:10px}.card-top,.lr-head{padding-right:104px}}
+@media(prefers-reduced-motion:reduce){.qr{transition:none}}
+
+.stds .ek { grid-column: 1 / -1; margin-top: 0; }
+.ek summary { cursor: pointer; font: 700 12.5px var(--mono); }
+.ek .lo { margin: 12px 0 4px 5%; font-weight: 700; }
+.ek .lo b { font: 700 12px var(--mono); margin-right: 4px; }
+.eks { list-style: none; padding: 0; margin: 0 0 0 10%; display: grid; gap: 8px; }
+.eks li { display: block; padding: 0; }
+.eks li::before { display: none !important; content: none !important; }
+.eks .ekc { display: block; font: 700 11.5px var(--mono); margin-bottom: 1px; }
+.eks img { max-width: 100%; height: auto; display: block; }
+@media (max-width: 600px) { .ek .lo { margin-left: 3%; } .eks { margin-left: 6%; } }
+a.chip{color:inherit;text-decoration:none}a.chip:hover,.stds dt a:hover{background:var(--blue);color:#fff}.stds dt a{color:inherit;text-decoration:none;display:block}
+
+.tbadge{font:800 11px var(--mono);letter-spacing:.1em;text-transform:uppercase;background:var(--orange);color:#fff;padding:3px 8px;border:2px solid #fff;margin-left:6px}
+.fbtn{position:relative}.fbtn.tonly{background:#fffbe6}.fbtn .tb{flex:none;font:800 10px var(--mono);font-style:normal;background:var(--ink);color:#fff;padding:1px 5px;margin-left:auto}
+.xres{background:#fff;border:3px solid var(--ink);box-shadow:var(--sh);padding:12px 18px;margin:0 0 26px}
+.xres summary{cursor:pointer;font:800 13px var(--mono);letter-spacing:.06em;text-transform:uppercase}
+.xgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:20px;margin-top:14px}
+
+.tx{white-space:pre-line}.tx .katex{font-size:1.04em}
+</style></head>
+<body>
+<div class="topbar"><div class="topbar-in"><span class="course">IB MAI HL</span><nav aria-label="Units"><button type="button" class="u" data-href="index.html">Topics</button><button type="button" class="u on" data-href="unit-6.html">6</button></nav></div></div>
+<div id="app" class="wrap"></div>
+<script id="data" type="application/json">{"unit": 6, "teacher": false, "extra": null, "ced": "", "title": "Matrices", "overview": "Matrix algebra first (operations, inverses, systems), then two uses: matrices as transformations of the plane, and Markov chains through eigenvectors and diagonalisation to the steady state. Markov chains and transformation matrices are both set every year on HL papers, and neither has an SL twin.", "parts": [{"code": "6", "title": "Matrices"}], "lessons": [{"id": "L1", "n": 1, "ln": 1, "code": "6.1", "part": "6", "partTitle": "Matrices", "title": "Matrices and Matrix Operations", "summary": "", "standards": [{"code": "AHL 1.14", "text": "Matrix definitions; equality, addition, subtraction, scalar multiples; multiplication."}], "skills": ["State the order of a matrix and name elements $a_{ij}$.", "Use matrix equality to find unknown elements.", "Add, subtract and multiply by a scalar, by hand and on the GDC.", "Decide when a product is defined, state its order, and multiply by hand and on the GDC.", "Interpret a product in context: quantities times prices gives a total."], "understandings": ["Order is rows by columns, and $AB$ exists only when the inner orders match; the outer orders give the size of $AB$.", "Equal matrices give one equation per element.", "Each entry of $AB$ is one row of $A$ against one column of $B$: multiply pairs and add.", "A product in context only makes sense when the labels line up (items in the columns of $Q$ match items in the rows of $P$)."], "misconceptions": ["Multiplying matrices entry by entry, as if it were addition.", "Reading order as columns by rows, so $2\\times3$ and $3\\times2$ get swapped.", "Assuming $BA$ exists because $AB$ does.", "Keeping a value from matrix equality that fails another element (e.g. $x=-3$ from $x^2=9$ when $2x=6$)."], "processes": ["Write the order under each matrix, check the inner numbers match, write the order of the answer, then multiply row by column.", "GDC: Run-Matrix, define Mat A and Mat B with their dimensions, then evaluate Mat A × Mat B; a non-conformable product gives an error.", "Equality: write one equation per element and solve, checking every element."], "exam": ["Matrix arithmetic is never asked alone on IB papers; it is the step inside every later question, and one correct entry already earns the method mark."], "qr": "https://broth11.github.io/IB-MAI-HL/unit-6.html#L1", "files": {"F": [{"l": "Notes", "h": "https://drive.google.com/file/d/1aXzW4bfQNbTbulhL8X9pjTa93nkNlY4z/view", "k": "page", "x": ""}, {"l": "Practice key (2025)", "h": "https://drive.google.com/file/d/1RaWDujCzDwj_NbSTykr8SIKxn2271twR/view", "k": "page", "x": ""}, {"l": "Practice: matrix arithmetic (2025)", "h": "https://drive.google.com/file/d/1N4HclfgtGg2l46ye5Ln5ROiDR3Upjomh/view", "k": "page", "x": ""}], "V": [], "K": [{"l": "3Blue1Brown: Essence of Linear Algebra", "h": "https://docs.google.com/spreadsheets/d/1614BHFZiKFcyD8k0Cr2naRBCO61v9UfNLAzmoJz8pq4/view", "k": "link", "x": ""}]}}, {"id": "L2", "n": 2, "ln": 2, "code": "6.2", "part": "6", "partTitle": "Matrices", "title": "Matrix Algebra", "summary": "", "standards": [{"code": "AHL 1.14", "text": "Associativity, distributivity and non-commutativity of multiplication; identity and zero matrices."}], "skills": ["Use associativity and distributivity, keeping the order of factors.", "Show by example that $AB\\ne BA$ in general.", "Use the identity $I$ and zero matrix $O$; solve equations such as $X+A=B$.", "Expand $(A+B)^2$ and $(A+2I)^2$ correctly; know $AB=O$ does not force $A=O$ or $B=O$.", "Find powers $A^n$ by hand and on the GDC.", "Set up a product that answers a question in context."], "understandings": ["Matrix multiplication is not commutative: one counterexample proves it, and order must always be written and kept.", "$(AB)C=A(BC)$ removes brackets, but never lets factors swap places.", "$I$ behaves like 1 and $O$ like 0, but $AB=O$ can happen with neither factor zero.", "$A^n$ only exists for square $A$."], "misconceptions": ["Writing $(A+B)^2=A^2+2AB+B^2$; the middle is $AB+BA$.", "Using the wrong size of $I$ for a non-square matrix ($KI$ and $IK$ need different orders).", "Concluding $A=O$ or $B=O$ from $AB=O$.", "Reading associativity as permission to reorder."], "processes": ["Expand brackets with the distributive law, writing each product in its order, then replace $AI$, $IA$ by $A$ and $I^2$ by $I$.", "GDC: store the matrix as Mat A in Run-Matrix and evaluate Mat A ^ n; check angle mode for trig entries.", "Solve $X+A=B$ or $kX=A$ as an ordinary equation."], "exam": ["$AB$ and $BA$ are different answers; practise both orders on the same pair."], "qr": "https://broth11.github.io/IB-MAI-HL/unit-6.html#L2", "files": {"F": [{"l": "Notes", "h": "https://drive.google.com/file/d/1-85eKvwQrbeVbme3sR4kIsyUVMkid6sE/view", "k": "page", "x": ""}], "V": [], "K": []}}, {"id": "L3", "n": 3, "ln": 3, "code": "6.3", "part": "6", "partTitle": "Matrices", "title": "Determinants and Inverses", "summary": "", "standards": [{"code": "AHL 1.14", "text": "Determinants and inverses of $n\\times n$ matrices with technology, and by hand for $2\\times2$."}], "skills": ["Find $\\det A$ for a $2\\times2$ by hand and $n\\times n$ on the GDC.", "Find $A^{-1}$ for a $2\\times2$ by hand and on the GDC.", "Recognise a singular matrix ($\\det A=0$).", "Solve $AX=B$ ($X=A^{-1}B$) and $XA=B$ ($X=BA^{-1}$).", "Use $(AB)^{-1}=B^{-1}A^{-1}$.", "Extension: encode and decode a message with a coding matrix."], "understandings": ["$\\det A=0$ means no inverse: the matrix loses information that cannot be recovered.", "Which side you multiply by $A^{-1}$ matters: $AX=B$ and $XA=B$ have different answers.", "To undo a composite, undo the last step first: $(AB)^{-1}=B^{-1}A^{-1}$."], "misconceptions": ["Writing $X=BA^{-1}$ for $AX=B$ (multiplying on the wrong side).", "Dividing by a matrix.", "Inverting each factor and keeping the original order.", "Forgetting the $\\frac{1}{\\det A}$ factor or swapping the wrong entries in the $2\\times2$ inverse."], "processes": ["$2\\times2$ inverse: find $ad-bc$, swap $a$ and $d$, negate $b$ and $c$, divide by the determinant.", "Matrix equation: decide the side, multiply both sides by the inverse on that side, simplify $A^{-1}A=I$.", "GDC: Det Mat A and Mat A$^{-1}$; a singular matrix gives Ma ERROR."], "exam": [], "qr": "https://broth11.github.io/IB-MAI-HL/unit-6.html#L3", "files": {"F": [], "V": [], "K": [{"l": "Last year's notes (old Lesson 2)", "h": "https://drive.google.com/file/d/1Q57Dh4h0R3DlWW9ISIv39K20x98aaOOP/view", "k": "link", "x": ""}, {"l": "Practice: determinants, inverses, systems (2025)", "h": "https://drive.google.com/file/d/1re0dGv9dnWYLDI9v3k1fwHgspZIg-5dq/view", "k": "link", "x": ""}, {"l": "Exit ticket (2025)", "h": "https://drive.google.com/file/d/1NphrzfsGyYWVYF1C1r36IFfbuQNiHtl0/view", "k": "link", "x": ""}, {"l": "Determinant, inverse, systems recap", "h": "https://drive.google.com/file/d/1m6206U2qEUs8R39lSimL-PsTSXCNqZHE/view", "k": "link", "x": ""}, {"l": "Extension: scrambling a message with a coding matrix", "h": "https://drive.google.com/file/d/1MgFwY7fm_WYBkfAjc3WJgrdu78QeGFXF/view", "k": "link", "x": ""}, {"l": "Finding unknown parameters using matrix equations", "h": "https://drive.google.com/file/d/1l_GWiiAiw7RspV3Mq2XwXHMJbQFjlapv/view", "k": "link", "x": ""}]}}, {"id": "L4", "n": 4, "ln": 4, "code": "6.4", "part": "6", "partTitle": "Matrices", "title": "Systems of Linear Equations", "summary": "", "standards": [{"code": "AHL 1.14", "text": "A system of equations can be written $Ax=b$; solution using the inverse matrix."}, {"code": "SL 1.8", "text": "Use technology to solve systems of linear equations in up to 3 variables."}], "skills": ["Write a worded situation as 2 to 3 linear equations, one per statement, with variables defined.", "Write the system as $Ax=b$ and solve by $x=A^{-1}b$ and with the GDC solver.", "Recognise when there is no unique solution ($\\det A=0$).", "Fit a quadratic or cubic through given points by setting up and solving a system.", "Check by substitution and label each value in context."], "understandings": ["Each statement in the stem is one equation; each point on a curve is one equation.", "$Ax=b$ is the same system the GDC solves; $A^{-1}b$ is why it works.", "$\\det A=0$ means no unique solution."], "misconceptions": ["Putting coefficients in the wrong column when a variable is missing from one equation (a 0 must be written).", "Undefined variables, so answers come back unlabelled.", "Giving $a, b, c$ but not writing the model as $f(x)=\\dots$."], "processes": ["Define variables, write one equation per statement, solve with EQUA → Simultaneous, label each value.", "Matrix route as a check: Mat A$^{-1}$ × Mat B.", "Polynomial fit: substitute each point into $ax^2+bx+c$, solve, write $f(x)$ in full."], "exam": ["At HL a system is usually a step inside a longer question: a polynomial fit or a steady state."], "qr": "https://broth11.github.io/IB-MAI-HL/unit-6.html#L4", "files": {"F": [], "V": [], "K": [{"l": "Last year's notes (old Lesson 2, systems part)", "h": "https://drive.google.com/file/d/1Q57Dh4h0R3DlWW9ISIv39K20x98aaOOP/view", "k": "link", "x": ""}, {"l": "Practice: determinants, inverses, systems (2025)", "h": "https://drive.google.com/file/d/1re0dGv9dnWYLDI9v3k1fwHgspZIg-5dq/view", "k": "link", "x": ""}, {"l": "Determinant, inverse, systems recap", "h": "https://drive.google.com/file/d/1m6206U2qEUs8R39lSimL-PsTSXCNqZHE/view", "k": "link", "x": ""}]}}, {"id": "L5", "n": 5, "ln": 5, "code": "6.5", "part": "6", "partTitle": "Matrices", "title": "Transformation Matrices", "summary": "", "standards": [{"code": "AHL 3.9", "text": "Geometric transformations of points in 2D by matrices: reflections, stretches, enlargements, rotations; geometric interpretation of the determinant."}], "skills": ["Find the image of a point or shape under a matrix.", "Build the matrix of a rotation, reflection in $y=(\\tan\\theta)x$, stretch or enlargement from the images of $(1,0)$ and $(0,1)$.", "Describe the transformation a matrix represents: kind plus parameter.", "Find a pre-image with the inverse.", "Use $|\\det M|$ as the area scale factor."], "understandings": ["The columns of $M$ are the images of $(1,0)$ and $(0,1)$.", "Image area $=|\\det M|\\times$ object area; a negative determinant reverses orientation; $\\det M=0$ collapses the plane to a line.", "A pre-image is the inverse transformation applied to the image."], "misconceptions": ["Giving a negative area from a negative determinant.", "Describing only the kind (\"a rotation\") without angle and direction, or mirror line, or scale factor.", "Multiplying the point as a row vector, or putting the matrix on the right."], "processes": ["Image: write points as column vectors and compute $M\\begin{pmatrix}x\\\\y\\end{pmatrix}$ on the GDC.", "Describe: find where $(1,0)$ goes, read off angle or mirror line, check with the formula-booklet matrices.", "Area: compute $\\det M$, take the absolute value, multiply."], "exam": ["Areas are never negative: use $|\\det M|$."], "qr": "https://broth11.github.io/IB-MAI-HL/unit-6.html#L5", "files": {"F": [], "V": [], "K": [{"l": "Last year's notes (old Lesson 3)", "h": "https://drive.google.com/file/d/1JmCbvluUu57DKem0-7iwObrqIGxH9o_Y/view", "k": "link", "x": ""}, {"l": "Practice: matrix transformations (2025)", "h": "https://drive.google.com/file/d/18JBkFr7FwaVEsQRJmj3oK6Zz9ruML8bC/view", "k": "link", "x": ""}, {"l": "Triangle area by determinants", "h": "https://drive.google.com/file/d/130zjTvPFI9dV6eeFEDHNjgXioPzhLP6v/view", "k": "link", "x": ""}]}}, {"id": "L6", "n": 6, "ln": 6, "code": "6.6", "part": "6", "partTitle": "Matrices", "title": "Composite and Affine Transformations", "summary": "", "standards": [{"code": "AHL 3.9", "text": "Translations; compositions of transformations."}], "skills": ["Compose in the right order: \"$P$ then $Q$\" is $QP$.", "Undo a composite with $(QP)^{-1}=P^{-1}Q^{-1}$.", "Apply an affine map $r'=Mr+v$; a translation does not change area.", "Find invariant or fixed points.", "Decompose a matrix into rotation × enlargement (or reflection × enlargement) and recover angle and scale factor.", "Iterate a transformation with $A^n$."], "understandings": ["The first transformation sits on the right: \"$P$ then $Q$\" is $QP$.", "A translation moves area but does not scale it; only $|\\det M|$ does.", "A fixed point solves $Mr+v=r$."], "misconceptions": ["Writing $PQ$ for \"$P$ then $Q$\".", "Inverting a composite piece by piece in the original order.", "Multiplying the area by the translation or forgetting area is unchanged under it.", "Labelling the coordinates of a fixed point the wrong way round."], "processes": ["Composite: say aloud which acts first, write it on the right, check by sending one point through both steps.", "Affine map: multiply then add $v$; fixed point: solve $Mr+v=r$ as a system.", "Decomposition: $\\sqrt{\\det}$ (or the column length) gives the scale factor, then the unit matrix gives the angle."], "exam": ["Many transformation questions accept a second method (equations instead of inverses)."], "qr": "https://broth11.github.io/IB-MAI-HL/unit-6.html#L6", "files": {"F": [], "V": [], "K": [{"l": "Last year's notes (old Lesson 4)", "h": "https://drive.google.com/file/d/1WxTgXJGeT4fcvxECDdYbPlXvfxOHr1K1/view", "k": "link", "x": ""}, {"l": "Matrix transformation challenge", "h": "https://drive.google.com/file/d/1OoOpLF4hf1_DKUNBBNVg49EYNzwro4_m/view", "k": "link", "x": ""}]}}, {"id": "L7", "n": 7, "ln": 7, "code": "6.7", "part": "6", "partTitle": "Matrices", "title": "Markov Chains", "summary": "", "standards": [{"code": "AHL 4.19", "text": "Transition matrices; powers of transition matrices; regular Markov chains; initial state probability matrices."}], "skills": ["Draw and read a transition diagram.", "Write the transition matrix (columns sum to 1) and an initial state vector.", "Find the state after $n$ steps, $s_n=T^ns_0$, counting the steps from the wording.", "Interpret entries as probabilities or proportions.", "Recognise a regular chain."], "understandings": ["Columns are \"from\", rows are \"to\", and each column sums to 1.", "$s_n=T^ns_0$: the exponent is the number of transitions, not the number of days named.", "The state vector can be probabilities or a population; the arithmetic is the same."], "misconceptions": ["Counting days instead of transitions (Monday to Wednesday is 2 steps).", "Putting the matrix in rows and columns inconsistently, so neither convention holds.", "Multiplying $s_0T^n$ with a column vector."], "processes": ["Diagram → matrix: fill each column from one state's arrows, check each column sums to 1.", "Count the steps from the stem, then GDC: Mat A ^ n × Mat B.", "State the convention when writing $T$ and keep it."], "exam": ["Either convention (or the transpose) earns marks if used consistently.", "The number of steps is its own mark: one too few or too many loses it."], "qr": "https://broth11.github.io/IB-MAI-HL/unit-6.html#L7", "files": {"F": [], "V": [], "K": [{"l": "Last year's notes (old Lesson 5)", "h": "https://drive.google.com/file/d/14i4bdSRbIXCvtWonrz8Nu4KLPGGxEo1V/view", "k": "link", "x": ""}, {"l": "Markov chain intro", "h": "https://docs.google.com/document/d/1EsZWKxvpF5eXA2_NNTDDbKhioCeut-A6pft-HggESsM/view", "k": "link", "x": ""}]}}, {"id": "L8", "n": 8, "ln": 8, "code": "6.8", "part": "6", "partTitle": "Matrices", "title": "Eigenvalues and Eigenvectors", "summary": "", "standards": [{"code": "AHL 1.15", "text": "Eigenvalues and eigenvectors; characteristic polynomial of $2\\times2$ matrices."}], "skills": ["Interpret $Av=\\lambda v$.", "Form the characteristic polynomial $\\det(A-\\lambda I)=0$ and write it as $\\lambda^2+b\\lambda+c$.", "Find eigenvalues by hand and on the GDC.", "Find an eigenvector for each eigenvalue (any non-zero multiple).", "Know a transition matrix always has $\\lambda=1$."], "understandings": ["An eigenvector keeps its direction; $\\lambda$ is how much it is stretched.", "$\\det(A-\\lambda I)=\\lambda^2-(\\mathrm{tr}A)\\lambda+\\det A$.", "Any non-zero multiple of an eigenvector is an eigenvector.", "A transition matrix has $\\lambda=1$, and that eigenvector leads to the steady state."], "misconceptions": ["Subtracting $\\lambda$ from every entry instead of only the diagonal.", "Stopping at the eigenvalues when the question needs eigenvectors.", "Giving the zero vector as an eigenvector."], "processes": ["Form $A-\\lambda I$, take the determinant, solve the quadratic.", "For each $\\lambda$: solve $(A-\\lambda I)v=0$ from one row, write $v$ with integer entries if asked.", "Check $Av=\\lambda v$ on the GDC."], "exam": ["Any sign that $\\det(A-\\lambda I)=0$ was used earns the method mark.", "Any multiple of the eigenvector is accepted."], "qr": "https://broth11.github.io/IB-MAI-HL/unit-6.html#L8", "files": {"F": [], "V": [], "K": [{"l": "Last year's notes (old Lesson 6)", "h": "https://drive.google.com/file/d/1_c9gaKnifdpQZrUAGUzI95L1JGstuFdx/view", "k": "link", "x": ""}]}}, {"id": "L9", "n": 9, "ln": 9, "code": "6.9", "part": "6", "partTitle": "Matrices", "title": "Diagonalisation and Matrix Powers", "summary": "", "standards": [{"code": "AHL 1.15", "text": "Diagonalisation of $2\\times2$ matrices (distinct real eigenvalues); applications to powers of $2\\times2$ matrices."}], "skills": ["Build $P$ from eigenvectors and $D$ from eigenvalues in matching order.", "Check $PDP^{-1}=A$ on the GDC.", "Compute $A^n=PD^nP^{-1}$ with $D^n=\\mathrm{diag}(\\lambda_1^n,\\lambda_2^n)$.", "Find a general expression for $A^n$ or a recurrence term."], "understandings": ["Column $k$ of $P$ must be the eigenvector for the $k$th diagonal entry of $D$.", "$A^n=PD^nP^{-1}$ because the inner $P^{-1}P$ pairs cancel.", "Powers of $D$ are just powers of the eigenvalues."], "misconceptions": ["$P$ and $D$ in mismatched order.", "Writing $A^n=P^nD^nP^{-n}$.", "Raising every entry of a non-diagonal matrix to the power $n$."], "processes": ["List eigenpairs, place them in the same order in $P$ and $D$, verify $PDP^{-1}=A$ on the GDC.", "Write $D^n$, multiply $PD^nP^{-1}$ symbolically, simplify entry by entry.", "Compare with $A^n$ on the GDC for one value of $n$."], "exam": ["$P$ and $D$ must be consistent; the second mark is withheld otherwise.", "Write $D^n$ explicitly before multiplying out $PD^nP^{-1}$; the matrices you write down carry the marks, not the GDC output."], "qr": "https://broth11.github.io/IB-MAI-HL/unit-6.html#L9", "files": {"F": [], "V": [], "K": [{"l": "Last year's notes (old Lesson 7)", "h": "https://drive.google.com/file/d/1-0FZa4OwDH3BnyWLv6MXeTla2h-u_4Ol/view", "k": "link", "x": ""}, {"l": "Podcast: Markov chains and diagonalisation", "h": "https://drive.google.com/file/d/1k0b9MAeR7BgajC6gNDZeh1c_KZOJaVTB/view", "k": "link", "x": ""}]}}, {"id": "L10", "n": 10, "ln": 10, "code": "6.10", "part": "6", "partTitle": "Matrices", "title": "Steady States", "summary": "", "standards": [{"code": "AHL 4.19", "text": "Steady state and long-term probabilities by repeated multiplication or by solving a system."}, {"code": "AHL 1.15", "text": "Applications to powers of $2\\times2$ matrices."}], "skills": ["Find the steady state three ways: high power of $T$, solve $Ts=s$ with entries summing to 1, normalise the $\\lambda=1$ eigenvector.", "Take the limit of $D^n$ to get the long-run matrix.", "Handle a chain with a parameter.", "Interpret in context and criticise the model's assumptions."], "understandings": ["The steady state satisfies $Ts=s$ and its entries sum to 1.", "It is the $\\lambda=1$ eigenvector, scaled to sum to 1.", "$D^n\\to\\mathrm{diag}(1,0)$, so $T^n\\to P\\,\\mathrm{diag}(1,0)\\,P^{-1}$, whose columns are the steady state."], "misconceptions": ["Giving the steady state from $T^{50}$ with no method shown.", "Forgetting to normalise the eigenvector.", "Criticising \"the model\" in general rather than a specific assumption (constant probabilities, closed population)."], "processes": ["Route 1: $T^{50}$ on the GDC and read a column.", "Route 2: write $Ts=s$ and $s_1+s_2=1$ as a system and solve.", "Route 3: take the $\\lambda=1$ eigenvector and divide by the sum of its entries.", "Long-run matrix: write $\\lim D^n$, then $P\\lim D^n P^{-1}$."], "exam": ["A bare limit earns almost nothing: show $\\lim D^n$ or the system you solved.", "The limit matrix itself must be written down to earn its mark."], "qr": "https://broth11.github.io/IB-MAI-HL/unit-6.html#L10", "files": {"F": [], "V": [], "K": [{"l": "Last year's notes (old Lesson 8)", "h": "https://drive.google.com/file/d/1oH2lNuAMiURKLmNYbA_Mydy9zzqKJCaB/view", "k": "link", "x": ""}, {"l": "Podcast: Markov chains and diagonalisation", "h": "https://drive.google.com/file/d/1k0b9MAeR7BgajC6gNDZeh1c_KZOJaVTB/view", "k": "link", "x": ""}]}}]}</script>
+<script>var qrcode=function(){function i(t,r){function a(t,r){g=function(t){for(var r=new Array(t),e=0;e<t;e+=1){r[e]=new Array(t);for(var n=0;n<t;n+=1)r[e][n]=null}return r}(l=4*u+17),e(0,0),e(l-7,0),e(0,l-7),i(),o(),v(t,r),7<=u&&h(t),null==n&&(n=w(u,f,c)),d(n,r)}var u=t,f=y[r],g=null,l=0,n=null,c=[],s={},e=function(t,r){for(var e=-1;e<=7;e+=1)if(!(t+e<=-1||l<=t+e))for(var n=-1;n<=7;n+=1)r+n<=-1||l<=r+n||(g[t+e][r+n]=0<=e&&e<=6&&(0==n||6==n)||0<=n&&n<=6&&(0==e||6==e)||2<=e&&e<=4&&2<=n&&n<=4)},o=function(){for(var t=8;t<l-8;t+=1)null==g[t][6]&&(g[t][6]=t%2==0);for(var r=8;r<l-8;r+=1)null==g[6][r]&&(g[6][r]=r%2==0)},i=function(){for(var t=B.getPatternPosition(u),r=0;r<t.length;r+=1)for(var e=0;e<t.length;e+=1){var n=t[r],o=t[e];if(null==g[n][o])for(var i=-2;i<=2;i+=1)for(var a=-2;a<=2;a+=1)g[n+i][o+a]=-2==i||2==i||-2==a||2==a||0==i&&0==a}},h=function(t){for(var r=B.getBCHTypeNumber(u),e=0;e<18;e+=1){var n=!t&&1==(r>>e&1);g[Math.floor(e/3)][e%3+l-8-3]=n}for(e=0;e<18;e+=1){n=!t&&1==(r>>e&1);g[e%3+l-8-3][Math.floor(e/3)]=n}},v=function(t,r){for(var e=f<<3|r,n=B.getBCHTypeInfo(e),o=0;o<15;o+=1){var i=!t&&1==(n>>o&1);o<6?g[o][8]=i:o<8?g[o+1][8]=i:g[l-15+o][8]=i}for(o=0;o<15;o+=1){i=!t&&1==(n>>o&1);o<8?g[8][l-o-1]=i:o<9?g[8][15-o-1+1]=i:g[8][15-o-1]=i}g[l-8][8]=!t},d=function(t,r){for(var e=-1,n=l-1,o=7,i=0,a=B.getMaskFunction(r),u=l-1;0<u;u-=2)for(6==u&&(u-=1);;){for(var f=0;f<2;f+=1)if(null==g[n][u-f]){var c=!1;i<t.length&&(c=1==(t[i]>>>o&1)),a(n,u-f)&&(c=!c),g[n][u-f]=c,-1==(o-=1)&&(i+=1,o=7)}if((n+=e)<0||l<=n){n-=e,e=-e;break}}},w=function(t,r,e){for(var n=b.getRSBlocks(t,r),o=M(),i=0;i<e.length;i+=1){var a=e[i];o.put(a.getMode(),4),o.put(a.getLength(),B.getLengthInBits(a.getMode(),t)),a.write(o)}var u=0;for(i=0;i<n.length;i+=1)u+=n[i].dataCount;if(o.getLengthInBits()>8*u)throw"code length overflow. ("+o.getLengthInBits()+">"+8*u+")";for(o.getLengthInBits()+4<=8*u&&o.put(0,4);o.getLengthInBits()%8!=0;)o.putBit(!1);for(;!(o.getLengthInBits()>=8*u||(o.put(236,8),o.getLengthInBits()>=8*u));)o.put(17,8);return function(t,r){for(var e=0,n=0,o=0,i=new Array(r.length),a=new Array(r.length),u=0;u<r.length;u+=1){var f=r[u].dataCount,c=r[u].totalCount-f;n=Math.max(n,f),o=Math.max(o,c),i[u]=new Array(f);for(var g=0;g<i[u].length;g+=1)i[u][g]=255&t.getBuffer()[g+e];e+=f;var l=B.getErrorCorrectPolynomial(c),h=C(i[u],l.getLength()-1).mod(l);a[u]=new Array(l.getLength()-1);for(g=0;g<a[u].length;g+=1){var s=g+h.getLength()-a[u].length;a[u][g]=0<=s?h.getAt(s):0}}var v=0;for(g=0;g<r.length;g+=1)v+=r[g].totalCount;var d=new Array(v),w=0;for(g=0;g<n;g+=1)for(u=0;u<r.length;u+=1)g<i[u].length&&(d[w]=i[u][g],w+=1);for(g=0;g<o;g+=1)for(u=0;u<r.length;u+=1)g<a[u].length&&(d[w]=a[u][g],w+=1);return d}(o,n)};s.addData=function(t,r){var e=null;switch(r=r||"Byte"){case"Numeric":e=x(t);break;case"Alphanumeric":e=m(t);break;case"Byte":e=L(t);break;case"Kanji":e=D(t);break;default:throw"mode:"+r}c.push(e),n=null},s.isDark=function(t,r){if(t<0||l<=t||r<0||l<=r)throw t+","+r;return g[t][r]},s.getModuleCount=function(){return l},s.make=function(){if(u<1){for(var t=1;t<40;t++){for(var r=b.getRSBlocks(t,f),e=M(),n=0;n<c.length;n++){var o=c[n];e.put(o.getMode(),4),e.put(o.getLength(),B.getLengthInBits(o.getMode(),t)),o.write(e)}var i=0;for(n=0;n<r.length;n++)i+=r[n].dataCount;if(e.getLengthInBits()<=8*i)break}u=t}a(!1,function(){for(var t=0,r=0,e=0;e<8;e+=1){a(!0,e);var n=B.getLostPoint(s);(0==e||n<t)&&(t=n,r=e)}return r}())},s.createTableTag=function(t,r){t=t||2;var e="";e+='<table style="',e+=" border-width: 0px; border-style: none;",e+=" border-collapse: collapse;",e+=" padding: 0px; margin: "+(r=void 0===r?4*t:r)+"px;",e+='">',e+="<tbody>";for(var n=0;n<s.getModuleCount();n+=1){e+="<tr>";for(var o=0;o<s.getModuleCount();o+=1)e+='<td style="',e+=" border-width: 0px; border-style: none;",e+=" border-collapse: collapse;",e+=" padding: 0px; margin: 0px;",e+=" width: "+t+"px;",e+=" height: "+t+"px;",e+=" background-color: ",e+=s.isDark(n,o)?"#000000":"#ffffff",e+=";",e+='"/>';e+="</tr>"}return e+="</tbody>",e+="</table>"},s.createSvgTag=function(t,r,e,n){var o={};"object"==typeof t&&(t=(o=t).cellSize,r=o.margin,e=o.alt,n=o.title),t=t||2,r=void 0===r?4*t:r,(e="string"==typeof e?{text:e}:e||{}).text=e.text||null,e.id=e.text?e.id||"qrcode-description":null,(n="string"==typeof n?{text:n}:n||{}).text=n.text||null,n.id=n.text?n.id||"qrcode-title":null;var i,a,u,f,c=s.getModuleCount()*t+2*r,g="";for(f="l"+t+",0 0,"+t+" -"+t+",0 0,-"+t+"z ",g+='<svg version="1.1" xmlns="http://www.w3.org/2000/svg"',g+=o.scalable?"":' width="'+c+'px" height="'+c+'px"',g+=' viewBox="0 0 '+c+" "+c+'" ',g+=' preserveAspectRatio="xMinYMin meet"',g+=n.text||e.text?' role="img" aria-labelledby="'+p([n.id,e.id].join(" ").trim())+'"':"",g+=">",g+=n.text?'<title id="'+p(n.id)+'">'+p(n.text)+"</title>":"",g+=e.text?'<description id="'+p(e.id)+'">'+p(e.text)+"</description>":"",g+='<rect width="100%" height="100%" fill="white" cx="0" cy="0"/>',g+='<path d="',a=0;a<s.getModuleCount();a+=1)for(u=a*t+r,i=0;i<s.getModuleCount();i+=1)s.isDark(a,i)&&(g+="M"+(i*t+r)+","+u+f);return g+='" stroke="transparent" fill="black"/>',g+="</svg>"},s.createDataURL=function(o,t){o=o||2,t=void 0===t?4*o:t;var r=s.getModuleCount()*o+2*t,i=t,a=r-t;return I(r,r,function(t,r){if(i<=t&&t<a&&i<=r&&r<a){var e=Math.floor((t-i)/o),n=Math.floor((r-i)/o);return s.isDark(n,e)?0:1}return 1})},s.createImgTag=function(t,r,e){t=t||2,r=void 0===r?4*t:r;var n=s.getModuleCount()*t+2*r,o="";return o+="<img",o+=' src="',o+=s.createDataURL(t,r),o+='"',o+=' width="',o+=n,o+='"',o+=' height="',o+=n,o+='"',e&&(o+=' alt="',o+=p(e),o+='"'),o+="/>"};var p=function(t){for(var r="",e=0;e<t.length;e+=1){var n=t.charAt(e);switch(n){case"<":r+="&lt;";break;case">":r+="&gt;";break;case"&":r+="&amp;";break;case'"':r+="&quot;";break;default:r+=n}}return r};return s.createASCII=function(t,r){if((t=t||1)<2)return function(t){t=void 0===t?2:t;var r,e,n,o,i,a=1*s.getModuleCount()+2*t,u=t,f=a-t,c={"██":"█","█ ":"▀"," █":"▄","  ":" "},g={"██":"▀","█ ":"▀"," █":" ","  ":" "},l="";for(r=0;r<a;r+=2){for(n=Math.floor((r-u)/1),o=Math.floor((r+1-u)/1),e=0;e<a;e+=1)i="█",u<=e&&e<f&&u<=r&&r<f&&s.isDark(n,Math.floor((e-u)/1))&&(i=" "),u<=e&&e<f&&u<=r+1&&r+1<f&&s.isDark(o,Math.floor((e-u)/1))?i+=" ":i+="█",l+=t<1&&f<=r+1?g[i]:c[i];l+="\n"}return a%2&&0<t?l.substring(0,l.length-a-1)+Array(1+a).join("▀"):l.substring(0,l.length-1)}(r);t-=1,r=void 0===r?2*t:r;var e,n,o,i,a=s.getModuleCount()*t+2*r,u=r,f=a-r,c=Array(t+1).join("██"),g=Array(t+1).join("  "),l="",h="";for(e=0;e<a;e+=1){for(o=Math.floor((e-u)/t),h="",n=0;n<a;n+=1)i=1,u<=n&&n<f&&u<=e&&e<f&&s.isDark(o,Math.floor((n-u)/t))&&(i=0),h+=i?c:g;for(o=0;o<t;o+=1)l+=h+"\n"}return l.substring(0,l.length-1)},s.renderTo2dContext=function(t,r){r=r||2;for(var e=s.getModuleCount(),n=0;n<e;n++)for(var o=0;o<e;o++)t.fillStyle=s.isDark(n,o)?"black":"white",t.fillRect(n*r,o*r,r,r)},s}i.stringToBytes=(i.stringToBytesFuncs={default:function(t){for(var r=[],e=0;e<t.length;e+=1){var n=t.charCodeAt(e);r.push(255&n)}return r}}).default,i.createStringToBytes=function(u,f){var i=function(){function t(){var t=r.read();if(-1==t)throw"eof";return t}for(var r=S(u),e=0,n={};;){var o=r.read();if(-1==o)break;var i=t(),a=t()<<8|t();n[String.fromCharCode(o<<8|i)]=a,e+=1}if(e!=f)throw e+" != "+f;return n}(),a="?".charCodeAt(0);return function(t){for(var r=[],e=0;e<t.length;e+=1){var n=t.charCodeAt(e);if(n<128)r.push(n);else{var o=i[t.charAt(e)];"number"==typeof o?(255&o)==o?r.push(o):(r.push(o>>>8),r.push(255&o)):r.push(a)}}return r}};var r,t,a=1,u=2,o=4,f=8,y={L:1,M:0,Q:3,H:2},e=0,n=1,c=2,g=3,l=4,h=5,s=6,v=7,B=(r=[[],[6,18],[6,22],[6,26],[6,30],[6,34],[6,22,38],[6,24,42],[6,26,46],[6,28,50],[6,30,54],[6,32,58],[6,34,62],[6,26,46,66],[6,26,48,70],[6,26,50,74],[6,30,54,78],[6,30,56,82],[6,30,58,86],[6,34,62,90],[6,28,50,72,94],[6,26,50,74,98],[6,30,54,78,102],[6,28,54,80,106],[6,32,58,84,110],[6,30,58,86,114],[6,34,62,90,118],[6,26,50,74,98,122],[6,30,54,78,102,126],[6,26,52,78,104,130],[6,30,56,82,108,134],[6,34,60,86,112,138],[6,30,58,86,114,142],[6,34,62,90,118,146],[6,30,54,78,102,126,150],[6,24,50,76,102,128,154],[6,28,54,80,106,132,158],[6,32,58,84,110,136,162],[6,26,54,82,110,138,166],[6,30,58,86,114,142,170]],(t={}).getBCHTypeInfo=function(t){for(var r=t<<10;0<=d(r)-d(1335);)r^=1335<<d(r)-d(1335);return 21522^(t<<10|r)},t.getBCHTypeNumber=function(t){for(var r=t<<12;0<=d(r)-d(7973);)r^=7973<<d(r)-d(7973);return t<<12|r},t.getPatternPosition=function(t){return r[t-1]},t.getMaskFunction=function(t){switch(t){case e:return function(t,r){return(t+r)%2==0};case n:return function(t,r){return t%2==0};case c:return function(t,r){return r%3==0};case g:return function(t,r){return(t+r)%3==0};case l:return function(t,r){return(Math.floor(t/2)+Math.floor(r/3))%2==0};case h:return function(t,r){return t*r%2+t*r%3==0};case s:return function(t,r){return(t*r%2+t*r%3)%2==0};case v:return function(t,r){return(t*r%3+(t+r)%2)%2==0};default:throw"bad maskPattern:"+t}},t.getErrorCorrectPolynomial=function(t){for(var r=C([1],0),e=0;e<t;e+=1)r=r.multiply(C([1,w.gexp(e)],0));return r},t.getLengthInBits=function(t,r){if(1<=r&&r<10)switch(t){case a:return 10;case u:return 9;case o:case f:return 8;default:throw"mode:"+t}else if(r<27)switch(t){case a:return 12;case u:return 11;case o:return 16;case f:return 10;default:throw"mode:"+t}else{if(!(r<41))throw"type:"+r;switch(t){case a:return 14;case u:return 13;case o:return 16;case f:return 12;default:throw"mode:"+t}}},t.getLostPoint=function(t){for(var r=t.getModuleCount(),e=0,n=0;n<r;n+=1)for(var o=0;o<r;o+=1){for(var i=0,a=t.isDark(n,o),u=-1;u<=1;u+=1)if(!(n+u<0||r<=n+u))for(var f=-1;f<=1;f+=1)o+f<0||r<=o+f||0==u&&0==f||a==t.isDark(n+u,o+f)&&(i+=1);5<i&&(e+=3+i-5)}for(n=0;n<r-1;n+=1)for(o=0;o<r-1;o+=1){var c=0;t.isDark(n,o)&&(c+=1),t.isDark(n+1,o)&&(c+=1),t.isDark(n,o+1)&&(c+=1),t.isDark(n+1,o+1)&&(c+=1),0!=c&&4!=c||(e+=3)}for(n=0;n<r;n+=1)for(o=0;o<r-6;o+=1)t.isDark(n,o)&&!t.isDark(n,o+1)&&t.isDark(n,o+2)&&t.isDark(n,o+3)&&t.isDark(n,o+4)&&!t.isDark(n,o+5)&&t.isDark(n,o+6)&&(e+=40);for(o=0;o<r;o+=1)for(n=0;n<r-6;n+=1)t.isDark(n,o)&&!t.isDark(n+1,o)&&t.isDark(n+2,o)&&t.isDark(n+3,o)&&t.isDark(n+4,o)&&!t.isDark(n+5,o)&&t.isDark(n+6,o)&&(e+=40);var g=0;for(o=0;o<r;o+=1)for(n=0;n<r;n+=1)t.isDark(n,o)&&(g+=1);return e+=Math.abs(100*g/r/r-50)/5*10},t);function d(t){for(var r=0;0!=t;)r+=1,t>>>=1;return r}var w=function(){for(var r=new Array(256),e=new Array(256),t=0;t<8;t+=1)r[t]=1<<t;for(t=8;t<256;t+=1)r[t]=r[t-4]^r[t-5]^r[t-6]^r[t-8];for(t=0;t<255;t+=1)e[r[t]]=t;var n={glog:function(t){if(t<1)throw"glog("+t+")";return e[t]},gexp:function(t){for(;t<0;)t+=255;for(;256<=t;)t-=255;return r[t]}};return n}();function C(n,o){if(void 0===n.length)throw n.length+"/"+o;var r=function(){for(var t=0;t<n.length&&0==n[t];)t+=1;for(var r=new Array(n.length-t+o),e=0;e<n.length-t;e+=1)r[e]=n[e+t];return r}(),i={getAt:function(t){return r[t]},getLength:function(){return r.length},multiply:function(t){for(var r=new Array(i.getLength()+t.getLength()-1),e=0;e<i.getLength();e+=1)for(var n=0;n<t.getLength();n+=1)r[e+n]^=w.gexp(w.glog(i.getAt(e))+w.glog(t.getAt(n)));return C(r,0)},mod:function(t){if(i.getLength()-t.getLength()<0)return i;for(var r=w.glog(i.getAt(0))-w.glog(t.getAt(0)),e=new Array(i.getLength()),n=0;n<i.getLength();n+=1)e[n]=i.getAt(n);for(n=0;n<t.getLength();n+=1)e[n]^=w.gexp(w.glog(t.getAt(n))+r);return C(e,0).mod(t)}};return i}function p(){var e=[],o={writeByte:function(t){e.push(255&t)},writeShort:function(t){o.writeByte(t),o.writeByte(t>>>8)},writeBytes:function(t,r,e){r=r||0,e=e||t.length;for(var n=0;n<e;n+=1)o.writeByte(t[n+r])},writeString:function(t){for(var r=0;r<t.length;r+=1)o.writeByte(t.charCodeAt(r))},toByteArray:function(){return e},toString:function(){var t="";t+="[";for(var r=0;r<e.length;r+=1)0<r&&(t+=","),t+=e[r];return t+="]"}};return o}var k,A,b=(k=[[1,26,19],[1,26,16],[1,26,13],[1,26,9],[1,44,34],[1,44,28],[1,44,22],[1,44,16],[1,70,55],[1,70,44],[2,35,17],[2,35,13],[1,100,80],[2,50,32],[2,50,24],[4,25,9],[1,134,108],[2,67,43],[2,33,15,2,34,16],[2,33,11,2,34,12],[2,86,68],[4,43,27],[4,43,19],[4,43,15],[2,98,78],[4,49,31],[2,32,14,4,33,15],[4,39,13,1,40,14],[2,121,97],[2,60,38,2,61,39],[4,40,18,2,41,19],[4,40,14,2,41,15],[2,146,116],[3,58,36,2,59,37],[4,36,16,4,37,17],[4,36,12,4,37,13],[2,86,68,2,87,69],[4,69,43,1,70,44],[6,43,19,2,44,20],[6,43,15,2,44,16],[4,101,81],[1,80,50,4,81,51],[4,50,22,4,51,23],[3,36,12,8,37,13],[2,116,92,2,117,93],[6,58,36,2,59,37],[4,46,20,6,47,21],[7,42,14,4,43,15],[4,133,107],[8,59,37,1,60,38],[8,44,20,4,45,21],[12,33,11,4,34,12],[3,145,115,1,146,116],[4,64,40,5,65,41],[11,36,16,5,37,17],[11,36,12,5,37,13],[5,109,87,1,110,88],[5,65,41,5,66,42],[5,54,24,7,55,25],[11,36,12,7,37,13],[5,122,98,1,123,99],[7,73,45,3,74,46],[15,43,19,2,44,20],[3,45,15,13,46,16],[1,135,107,5,136,108],[10,74,46,1,75,47],[1,50,22,15,51,23],[2,42,14,17,43,15],[5,150,120,1,151,121],[9,69,43,4,70,44],[17,50,22,1,51,23],[2,42,14,19,43,15],[3,141,113,4,142,114],[3,70,44,11,71,45],[17,47,21,4,48,22],[9,39,13,16,40,14],[3,135,107,5,136,108],[3,67,41,13,68,42],[15,54,24,5,55,25],[15,43,15,10,44,16],[4,144,116,4,145,117],[17,68,42],[17,50,22,6,51,23],[19,46,16,6,47,17],[2,139,111,7,140,112],[17,74,46],[7,54,24,16,55,25],[34,37,13],[4,151,121,5,152,122],[4,75,47,14,76,48],[11,54,24,14,55,25],[16,45,15,14,46,16],[6,147,117,4,148,118],[6,73,45,14,74,46],[11,54,24,16,55,25],[30,46,16,2,47,17],[8,132,106,4,133,107],[8,75,47,13,76,48],[7,54,24,22,55,25],[22,45,15,13,46,16],[10,142,114,2,143,115],[19,74,46,4,75,47],[28,50,22,6,51,23],[33,46,16,4,47,17],[8,152,122,4,153,123],[22,73,45,3,74,46],[8,53,23,26,54,24],[12,45,15,28,46,16],[3,147,117,10,148,118],[3,73,45,23,74,46],[4,54,24,31,55,25],[11,45,15,31,46,16],[7,146,116,7,147,117],[21,73,45,7,74,46],[1,53,23,37,54,24],[19,45,15,26,46,16],[5,145,115,10,146,116],[19,75,47,10,76,48],[15,54,24,25,55,25],[23,45,15,25,46,16],[13,145,115,3,146,116],[2,74,46,29,75,47],[42,54,24,1,55,25],[23,45,15,28,46,16],[17,145,115],[10,74,46,23,75,47],[10,54,24,35,55,25],[19,45,15,35,46,16],[17,145,115,1,146,116],[14,74,46,21,75,47],[29,54,24,19,55,25],[11,45,15,46,46,16],[13,145,115,6,146,116],[14,74,46,23,75,47],[44,54,24,7,55,25],[59,46,16,1,47,17],[12,151,121,7,152,122],[12,75,47,26,76,48],[39,54,24,14,55,25],[22,45,15,41,46,16],[6,151,121,14,152,122],[6,75,47,34,76,48],[46,54,24,10,55,25],[2,45,15,64,46,16],[17,152,122,4,153,123],[29,74,46,14,75,47],[49,54,24,10,55,25],[24,45,15,46,46,16],[4,152,122,18,153,123],[13,74,46,32,75,47],[48,54,24,14,55,25],[42,45,15,32,46,16],[20,147,117,4,148,118],[40,75,47,7,76,48],[43,54,24,22,55,25],[10,45,15,67,46,16],[19,148,118,6,149,119],[18,75,47,31,76,48],[34,54,24,34,55,25],[20,45,15,61,46,16]],(A={}).getRSBlocks=function(t,r){var e=function(t,r){switch(r){case y.L:return k[4*(t-1)+0];case y.M:return k[4*(t-1)+1];case y.Q:return k[4*(t-1)+2];case y.H:return k[4*(t-1)+3];default:return}}(t,r);if(void 0===e)throw"bad rs block @ typeNumber:"+t+"/errorCorrectionLevel:"+r;for(var n,o,i=e.length/3,a=[],u=0;u<i;u+=1)for(var f=e[3*u+0],c=e[3*u+1],g=e[3*u+2],l=0;l<f;l+=1)a.push((n=g,o=void 0,(o={}).totalCount=c,o.dataCount=n,o));return a},A),M=function(){var e=[],n=0,o={getBuffer:function(){return e},getAt:function(t){var r=Math.floor(t/8);return 1==(e[r]>>>7-t%8&1)},put:function(t,r){for(var e=0;e<r;e+=1)o.putBit(1==(t>>>r-e-1&1))},getLengthInBits:function(){return n},putBit:function(t){var r=Math.floor(n/8);e.length<=r&&e.push(0),t&&(e[r]|=128>>>n%8),n+=1}};return o},x=function(t){var r=a,n=t,e={getMode:function(){return r},getLength:function(t){return n.length},write:function(t){for(var r=n,e=0;e+2<r.length;)t.put(o(r.substring(e,e+3)),10),e+=3;e<r.length&&(r.length-e==1?t.put(o(r.substring(e,e+1)),4):r.length-e==2&&t.put(o(r.substring(e,e+2)),7))}},o=function(t){for(var r=0,e=0;e<t.length;e+=1)r=10*r+i(t.charAt(e));return r},i=function(t){if("0"<=t&&t<="9")return t.charCodeAt(0)-"0".charCodeAt(0);throw"illegal char :"+t};return e},m=function(t){var r=u,n=t,e={getMode:function(){return r},getLength:function(t){return n.length},write:function(t){for(var r=n,e=0;e+1<r.length;)t.put(45*o(r.charAt(e))+o(r.charAt(e+1)),11),e+=2;e<r.length&&t.put(o(r.charAt(e)),6)}},o=function(t){if("0"<=t&&t<="9")return t.charCodeAt(0)-"0".charCodeAt(0);if("A"<=t&&t<="Z")return t.charCodeAt(0)-"A".charCodeAt(0)+10;switch(t){case" ":return 36;case"$":return 37;case"%":return 38;case"*":return 39;case"+":return 40;case"-":return 41;case".":return 42;case"/":return 43;case":":return 44;default:throw"illegal char :"+t}};return e},L=function(t){var r=o,e=i.stringToBytes(t),n={getMode:function(){return r},getLength:function(t){return e.length},write:function(t){for(var r=0;r<e.length;r+=1)t.put(e[r],8)}};return n},D=function(t){var r=f,e=i.stringToBytesFuncs.SJIS;if(!e)throw"sjis not supported.";!function(){var t=e("友");if(2!=t.length||38726!=(t[0]<<8|t[1]))throw"sjis not supported."}();var o=e(t),n={getMode:function(){return r},getLength:function(t){return~~(o.length/2)},write:function(t){for(var r=o,e=0;e+1<r.length;){var n=(255&r[e])<<8|255&r[e+1];if(33088<=n&&n<=40956)n-=33088;else{if(!(57408<=n&&n<=60351))throw"illegal char at "+(e+1)+"/"+n;n-=49472}n=192*(n>>>8&255)+(255&n),t.put(n,13),e+=2}if(e<r.length)throw"illegal char at "+(e+1)}};return n},S=function(t){var e=t,n=0,o=0,i=0,r={read:function(){for(;i<8;){if(n>=e.length){if(0==i)return-1;throw"unexpected end of file./"+i}var t=e.charAt(n);if(n+=1,"="==t)return i=0,-1;t.match(/^\s$/)||(o=o<<6|a(t.charCodeAt(0)),i+=6)}var r=o>>>i-8&255;return i-=8,r}},a=function(t){if(65<=t&&t<=90)return t-65;if(97<=t&&t<=122)return t-97+26;if(48<=t&&t<=57)return t-48+52;if(43==t)return 62;if(47==t)return 63;throw"c:"+t};return r},I=function(t,r,e){for(var n=function(t,r){var n=t,o=r,l=new Array(t*r),e={setPixel:function(t,r,e){l[r*n+t]=e},write:function(t){t.writeString("GIF87a"),t.writeShort(n),t.writeShort(o),t.writeByte(128),t.writeByte(0),t.writeByte(0),t.writeByte(0),t.writeByte(0),t.writeByte(0),t.writeByte(255),t.writeByte(255),t.writeByte(255),t.writeString(","),t.writeShort(0),t.writeShort(0),t.writeShort(n),t.writeShort(o),t.writeByte(0);var r=i(2);t.writeByte(2);for(var e=0;255<r.length-e;)t.writeByte(255),t.writeBytes(r,e,255),e+=255;t.writeByte(r.length-e),t.writeBytes(r,e,r.length-e),t.writeByte(0),t.writeString(";")}},i=function(t){for(var r=1<<t,e=1+(1<<t),n=t+1,o=h(),i=0;i<r;i+=1)o.add(String.fromCharCode(i));o.add(String.fromCharCode(r)),o.add(String.fromCharCode(e));var a=p(),u=function(t){var e=t,n=0,o=0,r={write:function(t,r){if(t>>>r!=0)throw"length over";for(;8<=n+r;)e.writeByte(255&(t<<n|o)),r-=8-n,t>>>=8-n,n=o=0;o|=t<<n,n+=r},flush:function(){0<n&&e.writeByte(o)}};return r}(a);u.write(r,n);var f=0,c=String.fromCharCode(l[f]);for(f+=1;f<l.length;){var g=String.fromCharCode(l[f]);f+=1,o.contains(c+g)?c+=g:(u.write(o.indexOf(c),n),o.size()<4095&&(o.size()==1<<n&&(n+=1),o.add(c+g)),c=g)}return u.write(o.indexOf(c),n),u.write(e,n),u.flush(),a.toByteArray()},h=function(){var r={},e=0,n={add:function(t){if(n.contains(t))throw"dup key:"+t;r[t]=e,e+=1},size:function(){return e},indexOf:function(t){return r[t]},contains:function(t){return void 0!==r[t]}};return n};return e}(t,r),o=0;o<r;o+=1)for(var i=0;i<t;i+=1)n.setPixel(i,o,e(i,o));var a=p();n.write(a);for(var u=function(){function e(t){a+=String.fromCharCode(r(63&t))}var n=0,o=0,i=0,a="",t={},r=function(t){if(t<0);else{if(t<26)return 65+t;if(t<52)return t-26+97;if(t<62)return t-52+48;if(62==t)return 43;if(63==t)return 47}throw"n:"+t};return t.writeByte=function(t){for(n=n<<8|255&t,o+=8,i+=1;6<=o;)e(n>>>o-6),o-=6},t.flush=function(){if(0<o&&(e(n<<6-o),o=n=0),i%3!=0)for(var t=3-i%3,r=0;r<t;r+=1)a+="="},t.toString=function(){return a},t}(),f=a.toByteArray(),c=0;c<f.length;c+=1)u.writeByte(f[c]);return u.flush(),"data:image/gif;base64,"+u};return i}();qrcode.stringToBytesFuncs["UTF-8"]=function(t){return function(t){for(var r=[],e=0;e<t.length;e++){var n=t.charCodeAt(e);n<128?r.push(n):n<2048?r.push(192|n>>6,128|63&n):n<55296||57344<=n?r.push(224|n>>12,128|n>>6&63,128|63&n):(e++,n=65536+((1023&n)<<10|1023&t.charCodeAt(e)),r.push(240|n>>18,128|n>>12&63,128|n>>6&63,128|63&n))}return r}(t)},function(t){"function"==typeof define&&define.amd?define([],t):"object"==typeof exports&&(module.exports=t())}(function(){return qrcode});</script>
+<script>
+(function(){
+'use strict';
+var D=JSON.parse(document.getElementById('data').textContent), app=document.getElementById('app'), L=D.lessons, P=D.parts;
+var ICON={"page": "<path d=\"M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z\" /><path d=\"M14 2v4a2 2 0 0 0 2 2h4\" /><path d=\"M10 9H8\" /><path d=\"M16 13H8\" /><path d=\"M16 17H8\" />", "link": "<path d=\"M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71\" /><path d=\"M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71\" />", "video": "<path d=\"M2.5 17a24.12 24.12 0 0 1 0-10 2 2 0 0 1 1.4-1.4 49.56 49.56 0 0 1 16.2 0A2 2 0 0 1 21.5 7a24.12 24.12 0 0 1 0 10 2 2 0 0 1-1.4 1.4 49.55 49.55 0 0 1-16.2 0A2 2 0 0 1 2.5 17\" /><path d=\"m10 15 5-3-5-3z\" />", "brain": "<path d=\"M12 5a3 3 0 1 0-5.997.125 4 4 0 0 0-2.526 5.77 4 4 0 0 0 .556 6.588A4 4 0 1 0 12 18Z\" /><path d=\"M12 5a3 3 0 1 1 5.997.125 4 4 0 0 1 2.526 5.77 4 4 0 0 1-.556 6.588A4 4 0 1 1 12 18Z\" /><path d=\"M15 13a4.5 4.5 0 0 1-3-4 4.5 4.5 0 0 1-3 4\" /><path d=\"M17.599 6.5a3 3 0 0 0 .399-1.375\" /><path d=\"M6.003 5.125A3 3 0 0 0 6.401 6.5\" /><path d=\"M3.477 10.896a4 4 0 0 1 .585-.396\" /><path d=\"M19.938 10.5a4 4 0 0 1 .585.396\" /><path d=\"M6 18a4 4 0 0 1-1.967-.516\" /><path d=\"M19.967 17.484A4 4 0 0 1 18 18\" />"};
+var TABS=[['overview','Overview'],['skills','Skills'],['standards','Syllabus'],['files','Files'],['understandings','Key ideas'],['misconceptions','Watch out'],['processes','How to'],['exam','Exam tips']];
+var NAME={skills:'Skills',standards:'Syllabus',understandings:'Key ideas',misconceptions:'Watch out for',processes:'How to do it',exam:'Exam tips',files:'Files'};
+function esc(s){return String(s==null?'':s).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];});}
+function mt(s){var o='',p=String(s==null?'':s).split('$');for(var i=0;i<p.length;i++){if(i%2===0){o+=esc(p[i]);}else{try{o+=window.katex?katex.renderToString(p[i],{throwOnError:false}):esc('$'+p[i]+'$');}catch(e){o+=esc('$'+p[i]+'$');}}}return o;}
+function fmt(s){return mt(s).replace(/`([^`]+)`/g,'<code>$1</code>').replace(/\*\*([^*]+)\*\*/g,'<b>$1</b>');}
+function icon(k){return '<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">'+ICON[k]+'</svg>';}
+function byId(id){for(var i=0;i<L.length;i++)if(L[i].id===id)return L[i];return null;}
+function pad(n){return (n<10?'0':'')+n;}
+var SYL={"SL 1.1": "topic-1.html#1.1", "SL 1.2": "topic-1.html#1.2", "SL 1.3": "topic-1.html#1.3", "SL 1.4": "topic-1.html#1.4", "SL 1.5": "topic-1.html#1.5", "SL 1.6": "topic-1.html#1.6", "SL 1.7": "topic-1.html#1.7", "SL 1.8": "topic-1.html#1.8", "AHL 1.9": "topic-1.html#1.9", "AHL 1.10": "topic-1.html#1.10", "AHL 1.11": "topic-1.html#1.11", "AHL 1.12": "topic-1.html#1.12", "AHL 1.13": "topic-1.html#1.13", "AHL 1.14": "topic-1.html#1.14", "AHL 1.15": "topic-1.html#1.15", "SL 2.1": "topic-2.html#2.1", "SL 2.2": "topic-2.html#2.2", "SL 2.3": "topic-2.html#2.3", "SL 2.4": "topic-2.html#2.4", "SL 2.5": "topic-2.html#2.5", "SL 2.6": "topic-2.html#2.6", "AHL 2.7": "topic-2.html#2.7", "AHL 2.8": "topic-2.html#2.8", "AHL 2.9": "topic-2.html#2.9", "AHL 2.10": "topic-2.html#2.10", "SL 3.1": "topic-3.html#3.1", "SL 3.2": "topic-3.html#3.2", "SL 3.3": "topic-3.html#3.3", "SL 3.4": "topic-3.html#3.4", "SL 3.5": "topic-3.html#3.5", "SL 3.6": "topic-3.html#3.6", "AHL 3.7": "topic-3.html#3.7", "AHL 3.8": "topic-3.html#3.8", "AHL 3.9": "topic-3.html#3.9", "AHL 3.10": "topic-3.html#3.10", "AHL 3.11": "topic-3.html#3.11", "AHL 3.12": "topic-3.html#3.12", "AHL 3.13": "topic-3.html#3.13", "AHL 3.14": "topic-3.html#3.14", "AHL 3.15": "topic-3.html#3.15", "AHL 3.16": "topic-3.html#3.16", "SL 4.1": "topic-4.html#4.1", "SL 4.2": "topic-4.html#4.2", "SL 4.3": "topic-4.html#4.3", "SL 4.4": "topic-4.html#4.4", "SL 4.5": "topic-4.html#4.5", "SL 4.6": "topic-4.html#4.6", "SL 4.7": "topic-4.html#4.7", "SL 4.8": "topic-4.html#4.8", "SL 4.9": "topic-4.html#4.9", "SL 4.10": "topic-4.html#4.10", "SL 4.11": "topic-4.html#4.11", "AHL 4.12": "topic-4.html#4.12", "AHL 4.13": "topic-4.html#4.13", "AHL 4.14": "topic-4.html#4.14", "AHL 4.15": "topic-4.html#4.15", "AHL 4.16": "topic-4.html#4.16", "AHL 4.17": "topic-4.html#4.17", "AHL 4.18": "topic-4.html#4.18", "AHL 4.19": "topic-4.html#4.19", "SL 5.1": "topic-5.html#5.1", "SL 5.2": "topic-5.html#5.2", "SL 5.3": "topic-5.html#5.3", "SL 5.4": "topic-5.html#5.4", "SL 5.5": "topic-5.html#5.5", "SL 5.6": "topic-5.html#5.6", "SL 5.7": "topic-5.html#5.7", "SL 5.8": "topic-5.html#5.8", "AHL 5.9": "topic-5.html#5.9", "AHL 5.10": "topic-5.html#5.10", "AHL 5.11": "topic-5.html#5.11", "AHL 5.12": "topic-5.html#5.12", "AHL 5.13": "topic-5.html#5.13", "AHL 5.14": "topic-5.html#5.14", "AHL 5.15": "topic-5.html#5.15", "AHL 5.16": "topic-5.html#5.16", "AHL 5.17": "topic-5.html#5.17", "AHL 5.18": "topic-5.html#5.18"};function cl(s){var c=s.code.replace('CED ','');if(SYL[s.code])return 'href="'+SYL[s.code]+'" title="Open '+esc(s.code)+' in the syllabus topics"';return D.ced&&s.ek&&s.ek.length?'href="'+D.ced+'#'+encodeURIComponent(c)+'" title="Open CED '+esc(c)+'"':'';}
+function chips(l){return l.standards.map(function(s){var h=cl(s);return h?'<a class="chip" '+h+'>'+esc(s.code.replace('CED ',''))+'</a>':'<span class="chip">'+esc(s.code.replace('CED ',''))+'</span>';}).join('');}
+function list(a){return a&&a.length?'<ul>'+a.map(function(x){return '<li>'+fmt(x)+'</li>';}).join('')+'</ul>':'<p class="none">Nothing here yet</p>';}
+function ekh(s,open){if(!s.ek||!s.ek.length)return '';var n=s.ek.reduce(function(a,lo){return a+lo.eks.length;},0);return '<details class="ek"'+(open?' open':'')+'><summary>Essential knowledge ('+n+')</summary>'+s.ek.map(function(lo){return '<div class="lo"><b>'+esc(lo.code)+'</b> '+esc(lo.text)+'</div><ul class="eks">'+lo.eks.map(function(e){return '<li><span class="ekc">'+esc(e.code)+'</span>'+(e.img&&!e.text?'<img src="'+e.img+'" alt="'+esc(e.code)+'">':'<span class="tx">'+mt(e.text)+'</span>')+'</li>';}).join('')+'</ul>';}).join('')+'</details>';}
+function std(l,open){return l.standards.length?'<dl class="stds">'+l.standards.map(function(s){return '<dt>'+(cl(s)?'<a class="cedlink" '+cl(s)+'>'+esc(s.code.replace('CED ',''))+'</a>':esc(s.code.replace('CED ','')))+'</dt><dd>'+fmt(s.text)+'</dd>'+ekh(s,open);}).join('')+'</dl>':'<p class="none">Nothing here yet</p>';}
+function btns(items){return items.map(function(f){return '<a class="fbtn'+(f.t?' tonly':'')+'" href="'+esc(f.h)+'" target="_blank" rel="noopener noreferrer" title="'+esc(f.l)+'">'+icon(f.k)+'<span>'+esc(f.l)+(f.x?' <em>'+esc(f.x)+'</em>':'')+'</span>'+(f.t?'<i class="tb">T</i>':'')+'</a>';}).join('');}
+function col(t,items){return '<div class="col"><h3>'+t+'</h3>'+(items.length?'<div class="fbtns">'+btns(items)+'</div>':'<p class="none">None</p>')+'</div>';}
+function cols(l){return '<div class="cols">'+col('Files',l.files.F)+col('Videos',l.files.V)+col('Links',l.files.K)+'</div>';}
+function lessonUrl(id){var l=byId(id);return l&&l.qr?l.qr:location.href.split('#')[0]+'#'+id;}
+function qrSvg(url){var q=qrcode(0,'M');q.addData(url);q.make();var n=q.getModuleCount(),d='',r,c;for(r=0;r<n;r++)for(c=0;c<n;c++)if(q.isDark(r,c))d+='M'+(c+4)+' '+(r+4)+'h1v1h-1z';return '<svg viewBox="0 0 '+(n+8)+' '+(n+8)+'" shape-rendering="crispEdges" aria-hidden="true"><rect width="100%" height="100%" fill="#fff"/><path d="'+d+'" fill="#0b0b0b"/></svg>';}
+function qrBtn(l){if(D.teacher)return '';return '<button type="button" class="qr" data-qr="'+l.id+'" title="Show QR code for lesson '+esc(l.code)+'" aria-label="Show QR code for lesson '+esc(l.code)+'">'+qrSvg(lessonUrl(l.id))+'</button>';}
+function qrClose(){var m=document.getElementById('qrm');if(m)m.remove();}
+function qrOpen(id){var l=byId(id);if(!l)return;qrClose();var u=lessonUrl(id),m=document.createElement('div');m.id='qrm';m.className='qrm';m.setAttribute('role','dialog');m.setAttribute('aria-modal','true');m.setAttribute('aria-label','QR code for lesson '+l.code);m.innerHTML='<div class="qrm-card"><div class="qrm-big">'+qrSvg(u)+'</div><div class="qrm-cap"><span class="code-tag">Lesson '+esc(l.code)+'</span><b>'+esc(l.title)+'</b><span class="qrm-url">'+esc(u)+'</span></div></div>';document.body.appendChild(m);}
+function numCell(l){return '<span class="num">'+pad(l.ln)+'</span>';}
+function titleBlock(l){return '<div class="ttl"><span class="code-tag">Lesson '+esc(l.code)+'</span><h2>'+fmt(l.title)+'</h2></div>';}
+
+var state={lens:'overview',lesson:null,section:null};
+function read(){
+  var h=decodeURIComponent(location.hash.slice(1)),p=h.split('/'),n={lens:state.lens,lesson:null,section:null};
+  if(byId(p[0])){n.lesson=p[0];n.section=p[1]||null;}
+  else n.lens=TABS.some(function(t){return t[0]===h;})?h:'overview';
+  return n;
+}
+function lensBar(){return '<nav class="lens" aria-label="Category">'+TABS.map(function(t){return '<button type="button" class="tab'+(state.lens===t[0]?' on':'')+'" data-go="#'+(t[0]==='overview'?'':t[0])+'">'+t[1]+'</button>';}).join('')+'</nav>';}
+function xres(){if(!D.teacher||!D.extra)return '';var e=D.extra,o='<details class="xres"><summary>Unit and course resources</summary><div class="xgrid">';if(e.unit.length)o+='<div class="col"><h3>This unit</h3><div class="fbtns">'+btns(e.unit)+'</div></div>';e.course.forEach(function(g){o+='<div class="col"><h3>'+esc(g.group)+'</h3><div class="fbtns">'+btns(g.items)+'</div></div>';});return o+'</div></details>';}
+function hero(){return '<header class="hero"><span class="sticker">'+(D.teacher?'Teacher site':L.length+' lessons')+'</span><div class="eyebrow">'+(D.teacher?'Teacher · ':'')+'Unit '+D.unit+'</div><h1>'+esc(D.title)+'</h1><p>'+fmt(D.overview)+'</p></header>';}
+function jump(){return P.length>1?'<nav class="jump" aria-label="Parts">'+P.map(function(p){return '<button type="button" data-jump="p'+p.code+'">'+p.code+'</button>';}).join('')+'</nav>':'';}
+function partHead(p,n){return '<div class="part" id="p'+p.code+'"><div class="code">'+p.code+'</div><div class="pt"><b>'+esc(p.title)+'</b><span>'+n+' lesson'+(n!==1?'s':'')+'</span></div></div>';}
+
+function overviewCard(l){
+  return '<article class="card" data-id="'+l.id+'">'+qrBtn(l)+'<div class="card-top" role="link" tabindex="0" data-go="#'+l.id+'">'+numCell(l)+titleBlock(l)+'</div>'+
+   '<div class="chips"><span class="lab">Syllabus</span>'+chips(l)+'</div>'+
+   '<div class="card-body"><div class="blk" role="link" tabindex="0" data-go="#'+l.id+'/skills"><h3>Skills</h3>'+list(l.skills.slice(0,3))+(l.skills.length>3?'<p class="more">+'+(l.skills.length-3)+' more</p>':'')+'</div>'+
+   '<div class="blk" role="link" tabindex="0" data-go="#'+l.id+'"><h3>Summary</h3><p>'+fmt(l.summary)+'</p></div></div>'+
+   '<div class="cut"></div>'+cols(l)+'</article>';
+}
+function lensRow(l,k){
+  var body=k==='files'?cols(l):k==='standards'?std(l,true):list(l[k]);
+  return '<article class="card lrow" data-id="'+l.id+'">'+qrBtn(l)+'<div class="lr-head" role="link" tabindex="0" data-go="#'+l.id+'/'+k+'">'+numCell(l)+titleBlock(l)+'</div><div class="lr-body">'+body+'</div></article>';
+}
+function board(){
+  var out='';
+  P.forEach(function(p){
+    var ls=L.filter(function(l){return l.part===p.code;});
+    out+='<section>'+partHead(p,ls.length)+ls.map(function(l){return state.lens==='overview'?overviewCard(l):lensRow(l,state.lens);}).join('')+'</section>';
+  });
+  return out;
+}
+function sec(key,inner){return '<section class="sec'+(state.section===key?' focus':'')+'" id="s-'+key+'"><h3>'+NAME[key]+'</h3>'+inner+'</section>';}
+function sheet(){
+  var l=byId(state.lesson); if(!l)return '';
+  var i=L.indexOf(l),pv=L[i-1],nx=L[i+1];
+  return '<div class="sheet" tabindex="-1" role="dialog" aria-modal="true" aria-label="Lesson '+esc(l.code)+'"><div class="wrap">'+
+   '<div class="sheet-bar"><button type="button" class="back" data-go="#'+(state.lens==='overview'?'':state.lens)+'">&larr; Unit '+D.unit+' '+esc(D.title)+'</button><span class="pager">'+
+   (pv?'<button type="button" data-go="#'+pv.id+'" title="'+esc(pv.title)+'">&lsaquo; '+esc(pv.code)+'</button>':'<span class="off">&lsaquo;</span>')+
+   (nx?'<button type="button" data-go="#'+nx.id+'" title="'+esc(nx.title)+'">'+esc(nx.code)+' &rsaquo;</button>':'<span class="off">&rsaquo;</span>')+'</span></div>'+
+   '<header class="s-head">'+numCell(l)+'<div><span class="code-tag">Lesson '+esc(l.code)+' · '+esc(l.partTitle)+'</span><h2>'+fmt(l.title)+'</h2></div></header>'+
+   '<div class="s-grid"><div class="s-main">'+
+   '<section class="sec"><h3>Summary</h3><p>'+fmt(l.summary)+'</p></section>'+
+   '<div class="quad">'+sec('understandings',list(l.understandings))+sec('misconceptions',list(l.misconceptions))+sec('processes',list(l.processes))+sec('exam',list(l.exam))+'</div>'+
+   sec('skills',list(l.skills))+'</div>'+
+   '<aside class="s-side">'+sec('standards',std(l))+'</aside></div>'+
+   '<section class="sec'+(state.section==='files'?' focus':'')+'" id="s-files">'+cols(l)+'</section>'+
+   '</div></div>';
+}
+function draw(){
+  var open=!!state.lesson;
+  app.innerHTML=hero()+(state.lens==='overview'?xres():'')+lensBar()+(state.lens==='overview'?jump():'')+board()+'<p class="foot">Click a lesson for its full page. Esc returns.</p>'+sheet();
+  document.body.classList.toggle('locked',open);
+  var sh=app.querySelector('.sheet'); if(sh){sh.focus({preventScroll:true});var f=sh.querySelector('.focus');if(f)f.scrollIntoView({block:'center'});else sh.scrollTop=0;}
+}
+function route(){
+  var n=read(),same=n.lens===state.lens&&n.lesson===state.lesson&&n.section===state.section;
+  var y=window.scrollY; state=n; if(!same){draw(); if(!n.lesson)window.scrollTo(0,y);}
+}
+window.addEventListener('hashchange',route);
+document.addEventListener('keydown',function(e){
+  if(e.key==='Escape'&&document.getElementById('qrm')){qrClose();return;}
+  if(e.key==='Escape'&&state.lesson){location.hash=state.lens==='overview'?'':state.lens;return;}
+  if(state.lesson&&(e.key==='ArrowLeft'||e.key==='ArrowRight')){var i=L.indexOf(byId(state.lesson))+(e.key==='ArrowRight'?1:-1);if(L[i])location.hash=L[i].id;}
+});
+document.addEventListener('click',function(e){var q=e.target.closest('[data-qr]');if(q){qrOpen(q.getAttribute('data-qr'));return;}if(document.getElementById('qrm')){if(!e.target.closest('.qrm-card'))qrClose();return;}var o=e.target.closest('[data-open]');if(o){window.open(o.getAttribute('data-open'),'_blank','noopener');return;}var g=e.target.closest('[data-go]');if(g){location.hash=g.getAttribute('data-go');return;}var hr=e.target.closest('[data-href]');if(hr){location.href=hr.getAttribute('data-href');return;}});
+document.addEventListener('keydown',function(e){if((e.key==='Enter'||e.key===' ')&&e.target.matches&&e.target.matches('[role=link][data-go]')){e.preventDefault();location.hash=e.target.getAttribute('data-go');}});
+app.addEventListener('click',function(e){var a=e.target.closest('[data-jump]');if(a){e.preventDefault();var t=document.getElementById(a.getAttribute('data-jump'));if(t)t.scrollIntoView({behavior:'smooth',block:'start'});}});
+state=read(); draw();
+})();
+</script><!-- unit-data:start -->
+<script id="unit-data" type="application/json">
+{
+ "version": 1,
+ "audience": "student",
+ "unit": {
+  "id": "Unit 6: Matrices",
+  "number": "6",
+  "title": "Matrices",
+  "course": "MAI HL - Files for Students (Lessons & Worksheets)",
+  "overview": "Matrix algebra first (operations, inverses, systems), then two uses: matrices as transformations of the plane, and Markov chains through eigenvectors and diagonalisation to the steady state. Markov chains and transformation matrices are both set every year on HL papers, and neither has an SL twin."
+ },
+ "rootPrefix": "",
+ "updated": "2026-11-17T23:59:39",
+ "categories": [
+  "understandings",
+  "misconceptions",
+  "processes",
+  "exam"
+ ],
+ "lessons": [
+  {
+   "id": "L1",
+   "n": 1,
+   "title": "Matrices and Matrix Operations",
+   "topic": "Define matrices and combine them: order, equality, addition, scalar multiples, products.",
+   "standards": [
+    {
+     "code": "AHL 1.14",
+     "text": "Matrix definitions; equality, addition, subtraction, scalar multiples; multiplication."
+    }
+   ],
+   "skills": [
+    "State the order of a matrix and name elements $a_{ij}$.",
+    "Use matrix equality to find unknown elements.",
+    "Add, subtract and multiply by a scalar, by hand and on the GDC.",
+    "Decide when a product is defined, state its order, and multiply by hand and on the GDC.",
+    "Interpret a product in context: quantities times prices gives a total."
+   ],
+   "explainer": {
+    "understandings": [
+     "Order is rows by columns, and $AB$ exists only when the inner orders match; the outer orders give the size of $AB$.",
+     "Equal matrices give one equation per element.",
+     "Each entry of $AB$ is one row of $A$ against one column of $B$: multiply pairs and add.",
+     "A product in context only makes sense when the labels line up (items in the columns of $Q$ match items in the rows of $P$)."
+    ],
+    "misconceptions": [
+     "Multiplying matrices entry by entry, as if it were addition.",
+     "Reading order as columns by rows, so $2\\times3$ and $3\\times2$ get swapped.",
+     "Assuming $BA$ exists because $AB$ does.",
+     "Keeping a value from matrix equality that fails another element (e.g. $x=-3$ from $x^2=9$ when $2x=6$)."
+    ],
+    "processes": [
+     "Write the order under each matrix, check the inner numbers match, write the order of the answer, then multiply row by column.",
+     "GDC: Run-Matrix, define Mat A and Mat B with their dimensions, then evaluate Mat A × Mat B; a non-conformable product gives an error.",
+     "Equality: write one equation per element and solve, checking every element."
+    ],
+    "exam": [
+     "Matrix arithmetic is never asked alone on IB papers; it is the step inside every later question, and one correct entry already earns the method mark."
+    ]
+   },
+   "resources": [
+    {
+     "label": "Notes",
+     "audience": "student",
+     "files": [
+      {
+       "ext": "pdf",
+       "href": "https://drive.google.com/file/d/1aXzW4bfQNbTbulhL8X9pjTa93nkNlY4z/view"
+      }
+     ]
+    },
+    {
+     "label": "Practice key (2025)",
+     "audience": "student",
+     "files": [
+      {
+       "ext": "pdf",
+       "href": "https://drive.google.com/file/d/1RaWDujCzDwj_NbSTykr8SIKxn2271twR/view"
+      }
+     ]
+    },
+    {
+     "label": "Practice: matrix arithmetic (2025)",
+     "audience": "student",
+     "files": [
+      {
+       "ext": "pdf",
+       "href": "https://drive.google.com/file/d/1N4HclfgtGg2l46ye5Ln5ROiDR3Upjomh/view"
+      }
+     ]
+    }
+   ],
+   "folderUrl": "https://drive.google.com/drive/folders/1bv7NmTzktMDXf6ClzZ0sAHD1pd0Zqt5q",
+   "links": [
+    {
+     "label": "3Blue1Brown: Essence of Linear Algebra",
+     "audience": "student",
+     "href": "https://docs.google.com/spreadsheets/d/1614BHFZiKFcyD8k0Cr2naRBCO61v9UfNLAzmoJz8pq4/view"
+    }
+   ],
+   "hideGuide": []
+  },
+  {
+   "id": "L2",
+   "n": 2,
+   "title": "Matrix Algebra",
+   "topic": "The rules matrices obey and the ones they break.",
+   "standards": [
+    {
+     "code": "AHL 1.14",
+     "text": "Associativity, distributivity and non-commutativity of multiplication; identity and zero matrices."
+    }
+   ],
+   "skills": [
+    "Use associativity and distributivity, keeping the order of factors.",
+    "Show by example that $AB\\ne BA$ in general.",
+    "Use the identity $I$ and zero matrix $O$; solve equations such as $X+A=B$.",
+    "Expand $(A+B)^2$ and $(A+2I)^2$ correctly; know $AB=O$ does not force $A=O$ or $B=O$.",
+    "Find powers $A^n$ by hand and on the GDC.",
+    "Set up a product that answers a question in context."
+   ],
+   "explainer": {
+    "understandings": [
+     "Matrix multiplication is not commutative: one counterexample proves it, and order must always be written and kept.",
+     "$(AB)C=A(BC)$ removes brackets, but never lets factors swap places.",
+     "$I$ behaves like 1 and $O$ like 0, but $AB=O$ can happen with neither factor zero.",
+     "$A^n$ only exists for square $A$."
+    ],
+    "misconceptions": [
+     "Writing $(A+B)^2=A^2+2AB+B^2$; the middle is $AB+BA$.",
+     "Using the wrong size of $I$ for a non-square matrix ($KI$ and $IK$ need different orders).",
+     "Concluding $A=O$ or $B=O$ from $AB=O$.",
+     "Reading associativity as permission to reorder."
+    ],
+    "processes": [
+     "Expand brackets with the distributive law, writing each product in its order, then replace $AI$, $IA$ by $A$ and $I^2$ by $I$.",
+     "GDC: store the matrix as Mat A in Run-Matrix and evaluate Mat A ^ n; check angle mode for trig entries.",
+     "Solve $X+A=B$ or $kX=A$ as an ordinary equation."
+    ],
+    "exam": [
+     "$AB$ and $BA$ are different answers; practise both orders on the same pair."
+    ]
+   },
+   "resources": [
+    {
+     "label": "Notes",
+     "audience": "student",
+     "files": [
+      {
+       "ext": "pdf",
+       "href": "https://drive.google.com/file/d/1-85eKvwQrbeVbme3sR4kIsyUVMkid6sE/view"
+      }
+     ]
+    }
+   ],
+   "folderUrl": "https://drive.google.com/drive/folders/1PPCqBiJSW8KZGj1PLYlZbB8xwLT5gR3b",
+   "links": [],
+   "hideGuide": []
+  },
+  {
+   "id": "L3",
+   "n": 3,
+   "title": "Determinants and Inverses",
+   "topic": "Undo a matrix: determinant, inverse, matrix equations.",
+   "standards": [
+    {
+     "code": "AHL 1.14",
+     "text": "Determinants and inverses of $n\\times n$ matrices with technology, and by hand for $2\\times2$."
+    }
+   ],
+   "skills": [
+    "Find $\\det A$ for a $2\\times2$ by hand and $n\\times n$ on the GDC.",
+    "Find $A^{-1}$ for a $2\\times2$ by hand and on the GDC.",
+    "Recognise a singular matrix ($\\det A=0$).",
+    "Solve $AX=B$ ($X=A^{-1}B$) and $XA=B$ ($X=BA^{-1}$).",
+    "Use $(AB)^{-1}=B^{-1}A^{-1}$.",
+    "Extension: encode and decode a message with a coding matrix."
+   ],
+   "explainer": {
+    "understandings": [
+     "$\\det A=0$ means no inverse: the matrix loses information that cannot be recovered.",
+     "Which side you multiply by $A^{-1}$ matters: $AX=B$ and $XA=B$ have different answers.",
+     "To undo a composite, undo the last step first: $(AB)^{-1}=B^{-1}A^{-1}$."
+    ],
+    "misconceptions": [
+     "Writing $X=BA^{-1}$ for $AX=B$ (multiplying on the wrong side).",
+     "Dividing by a matrix.",
+     "Inverting each factor and keeping the original order.",
+     "Forgetting the $\\frac{1}{\\det A}$ factor or swapping the wrong entries in the $2\\times2$ inverse."
+    ],
+    "processes": [
+     "$2\\times2$ inverse: find $ad-bc$, swap $a$ and $d$, negate $b$ and $c$, divide by the determinant.",
+     "Matrix equation: decide the side, multiply both sides by the inverse on that side, simplify $A^{-1}A=I$.",
+     "GDC: Det Mat A and Mat A$^{-1}$; a singular matrix gives Ma ERROR."
+    ],
+    "exam": []
+   },
+   "resources": [],
+   "folderUrl": "https://drive.google.com/drive/folders/1Jpw5Bw3rA0Mhgcax51fAnvRSnSa_U2dT",
+   "links": [
+    {
+     "label": "Last year's notes (old Lesson 2)",
+     "audience": "student",
+     "href": "https://drive.google.com/file/d/1Q57Dh4h0R3DlWW9ISIv39K20x98aaOOP/view"
+    },
+    {
+     "label": "Practice: determinants, inverses, systems (2025)",
+     "audience": "student",
+     "href": "https://drive.google.com/file/d/1re0dGv9dnWYLDI9v3k1fwHgspZIg-5dq/view"
+    },
+    {
+     "label": "Exit ticket (2025)",
+     "audience": "student",
+     "href": "https://drive.google.com/file/d/1NphrzfsGyYWVYF1C1r36IFfbuQNiHtl0/view"
+    },
+    {
+     "label": "Determinant, inverse, systems recap",
+     "audience": "student",
+     "href": "https://drive.google.com/file/d/1m6206U2qEUs8R39lSimL-PsTSXCNqZHE/view"
+    },
+    {
+     "label": "Extension: scrambling a message with a coding matrix",
+     "audience": "student",
+     "href": "https://drive.google.com/file/d/1MgFwY7fm_WYBkfAjc3WJgrdu78QeGFXF/view"
+    },
+    {
+     "label": "Finding unknown parameters using matrix equations",
+     "audience": "student",
+     "href": "https://drive.google.com/file/d/1l_GWiiAiw7RspV3Mq2XwXHMJbQFjlapv/view"
+    }
+   ],
+   "hideGuide": []
+  },
+  {
+   "id": "L4",
+   "n": 4,
+   "title": "Systems of Linear Equations",
+   "topic": "Solve systems with matrices and technology, including polynomial fitting.",
+   "standards": [
+    {
+     "code": "AHL 1.14",
+     "text": "A system of equations can be written $Ax=b$; solution using the inverse matrix."
+    },
+    {
+     "code": "SL 1.8",
+     "text": "Use technology to solve systems of linear equations in up to 3 variables."
+    }
+   ],
+   "skills": [
+    "Write a worded situation as 2 to 3 linear equations, one per statement, with variables defined.",
+    "Write the system as $Ax=b$ and solve by $x=A^{-1}b$ and with the GDC solver.",
+    "Recognise when there is no unique solution ($\\det A=0$).",
+    "Fit a quadratic or cubic through given points by setting up and solving a system.",
+    "Check by substitution and label each value in context."
+   ],
+   "explainer": {
+    "understandings": [
+     "Each statement in the stem is one equation; each point on a curve is one equation.",
+     "$Ax=b$ is the same system the GDC solves; $A^{-1}b$ is why it works.",
+     "$\\det A=0$ means no unique solution."
+    ],
+    "misconceptions": [
+     "Putting coefficients in the wrong column when a variable is missing from one equation (a 0 must be written).",
+     "Undefined variables, so answers come back unlabelled.",
+     "Giving $a, b, c$ but not writing the model as $f(x)=\\dots$."
+    ],
+    "processes": [
+     "Define variables, write one equation per statement, solve with EQUA → Simultaneous, label each value.",
+     "Matrix route as a check: Mat A$^{-1}$ × Mat B.",
+     "Polynomial fit: substitute each point into $ax^2+bx+c$, solve, write $f(x)$ in full."
+    ],
+    "exam": [
+     "At HL a system is usually a step inside a longer question: a polynomial fit or a steady state."
+    ]
+   },
+   "resources": [],
+   "folderUrl": "https://drive.google.com/drive/folders/1YjZvFWXjf-U56i-OZ6DF05FQPmwwA__R",
+   "links": [
+    {
+     "label": "Last year's notes (old Lesson 2, systems part)",
+     "audience": "student",
+     "href": "https://drive.google.com/file/d/1Q57Dh4h0R3DlWW9ISIv39K20x98aaOOP/view"
+    },
+    {
+     "label": "Practice: determinants, inverses, systems (2025)",
+     "audience": "student",
+     "href": "https://drive.google.com/file/d/1re0dGv9dnWYLDI9v3k1fwHgspZIg-5dq/view"
+    },
+    {
+     "label": "Determinant, inverse, systems recap",
+     "audience": "student",
+     "href": "https://drive.google.com/file/d/1m6206U2qEUs8R39lSimL-PsTSXCNqZHE/view"
+    }
+   ],
+   "hideGuide": []
+  },
+  {
+   "id": "L5",
+   "n": 5,
+   "title": "Transformation Matrices",
+   "topic": "Represent rotations, reflections, stretches and enlargements by matrices.",
+   "standards": [
+    {
+     "code": "AHL 3.9",
+     "text": "Geometric transformations of points in 2D by matrices: reflections, stretches, enlargements, rotations; geometric interpretation of the determinant."
+    }
+   ],
+   "skills": [
+    "Find the image of a point or shape under a matrix.",
+    "Build the matrix of a rotation, reflection in $y=(\\tan\\theta)x$, stretch or enlargement from the images of $(1,0)$ and $(0,1)$.",
+    "Describe the transformation a matrix represents: kind plus parameter.",
+    "Find a pre-image with the inverse.",
+    "Use $|\\det M|$ as the area scale factor."
+   ],
+   "explainer": {
+    "understandings": [
+     "The columns of $M$ are the images of $(1,0)$ and $(0,1)$.",
+     "Image area $=|\\det M|\\times$ object area; a negative determinant reverses orientation; $\\det M=0$ collapses the plane to a line.",
+     "A pre-image is the inverse transformation applied to the image."
+    ],
+    "misconceptions": [
+     "Giving a negative area from a negative determinant.",
+     "Describing only the kind (\"a rotation\") without angle and direction, or mirror line, or scale factor.",
+     "Multiplying the point as a row vector, or putting the matrix on the right."
+    ],
+    "processes": [
+     "Image: write points as column vectors and compute $M\\begin{pmatrix}x\\\\y\\end{pmatrix}$ on the GDC.",
+     "Describe: find where $(1,0)$ goes, read off angle or mirror line, check with the formula-booklet matrices.",
+     "Area: compute $\\det M$, take the absolute value, multiply."
+    ],
+    "exam": [
+     "Areas are never negative: use $|\\det M|$."
+    ]
+   },
+   "resources": [],
+   "folderUrl": "https://drive.google.com/drive/folders/1hLX5-Wf05lfV8VaAt7-neX5REFjkPMB8",
+   "links": [
+    {
+     "label": "Last year's notes (old Lesson 3)",
+     "audience": "student",
+     "href": "https://drive.google.com/file/d/1JmCbvluUu57DKem0-7iwObrqIGxH9o_Y/view"
+    },
+    {
+     "label": "Practice: matrix transformations (2025)",
+     "audience": "student",
+     "href": "https://drive.google.com/file/d/18JBkFr7FwaVEsQRJmj3oK6Zz9ruML8bC/view"
+    },
+    {
+     "label": "Triangle area by determinants",
+     "audience": "student",
+     "href": "https://drive.google.com/file/d/130zjTvPFI9dV6eeFEDHNjgXioPzhLP6v/view"
+    }
+   ],
+   "hideGuide": []
+  },
+  {
+   "id": "L6",
+   "n": 6,
+   "title": "Composite and Affine Transformations",
+   "topic": "Combine transformations and add translations.",
+   "standards": [
+    {
+     "code": "AHL 3.9",
+     "text": "Translations; compositions of transformations."
+    }
+   ],
+   "skills": [
+    "Compose in the right order: \"$P$ then $Q$\" is $QP$.",
+    "Undo a composite with $(QP)^{-1}=P^{-1}Q^{-1}$.",
+    "Apply an affine map $r'=Mr+v$; a translation does not change area.",
+    "Find invariant or fixed points.",
+    "Decompose a matrix into rotation × enlargement (or reflection × enlargement) and recover angle and scale factor.",
+    "Iterate a transformation with $A^n$."
+   ],
+   "explainer": {
+    "understandings": [
+     "The first transformation sits on the right: \"$P$ then $Q$\" is $QP$.",
+     "A translation moves area but does not scale it; only $|\\det M|$ does.",
+     "A fixed point solves $Mr+v=r$."
+    ],
+    "misconceptions": [
+     "Writing $PQ$ for \"$P$ then $Q$\".",
+     "Inverting a composite piece by piece in the original order.",
+     "Multiplying the area by the translation or forgetting area is unchanged under it.",
+     "Labelling the coordinates of a fixed point the wrong way round."
+    ],
+    "processes": [
+     "Composite: say aloud which acts first, write it on the right, check by sending one point through both steps.",
+     "Affine map: multiply then add $v$; fixed point: solve $Mr+v=r$ as a system.",
+     "Decomposition: $\\sqrt{\\det}$ (or the column length) gives the scale factor, then the unit matrix gives the angle."
+    ],
+    "exam": [
+     "Many transformation questions accept a second method (equations instead of inverses)."
+    ]
+   },
+   "resources": [],
+   "folderUrl": "https://drive.google.com/drive/folders/1ry8NU7tlXuTgZqZndS_dvEnlwigBZ9iW",
+   "links": [
+    {
+     "label": "Last year's notes (old Lesson 4)",
+     "audience": "student",
+     "href": "https://drive.google.com/file/d/1WxTgXJGeT4fcvxECDdYbPlXvfxOHr1K1/view"
+    },
+    {
+     "label": "Matrix transformation challenge",
+     "audience": "student",
+     "href": "https://drive.google.com/file/d/1OoOpLF4hf1_DKUNBBNVg49EYNzwro4_m/view"
+    }
+   ],
+   "hideGuide": []
+  },
+  {
+   "id": "L7",
+   "n": 7,
+   "title": "Markov Chains",
+   "topic": "Model a system that moves between states.",
+   "standards": [
+    {
+     "code": "AHL 4.19",
+     "text": "Transition matrices; powers of transition matrices; regular Markov chains; initial state probability matrices."
+    }
+   ],
+   "skills": [
+    "Draw and read a transition diagram.",
+    "Write the transition matrix (columns sum to 1) and an initial state vector.",
+    "Find the state after $n$ steps, $s_n=T^ns_0$, counting the steps from the wording.",
+    "Interpret entries as probabilities or proportions.",
+    "Recognise a regular chain."
+   ],
+   "explainer": {
+    "understandings": [
+     "Columns are \"from\", rows are \"to\", and each column sums to 1.",
+     "$s_n=T^ns_0$: the exponent is the number of transitions, not the number of days named.",
+     "The state vector can be probabilities or a population; the arithmetic is the same."
+    ],
+    "misconceptions": [
+     "Counting days instead of transitions (Monday to Wednesday is 2 steps).",
+     "Putting the matrix in rows and columns inconsistently, so neither convention holds.",
+     "Multiplying $s_0T^n$ with a column vector."
+    ],
+    "processes": [
+     "Diagram → matrix: fill each column from one state's arrows, check each column sums to 1.",
+     "Count the steps from the stem, then GDC: Mat A ^ n × Mat B.",
+     "State the convention when writing $T$ and keep it."
+    ],
+    "exam": [
+     "Either convention (or the transpose) earns marks if used consistently.",
+     "The number of steps is its own mark: one too few or too many loses it."
+    ]
+   },
+   "resources": [],
+   "folderUrl": "https://drive.google.com/drive/folders/1TrqLAOweniCSFLzmgrQURNP8O8f01MRl",
+   "links": [
+    {
+     "label": "Last year's notes (old Lesson 5)",
+     "audience": "student",
+     "href": "https://drive.google.com/file/d/14i4bdSRbIXCvtWonrz8Nu4KLPGGxEo1V/view"
+    },
+    {
+     "label": "Markov chain intro",
+     "audience": "student",
+     "href": "https://docs.google.com/document/d/1EsZWKxvpF5eXA2_NNTDDbKhioCeut-A6pft-HggESsM/view"
+    }
+   ],
+   "hideGuide": []
+  },
+  {
+   "id": "L8",
+   "n": 8,
+   "title": "Eigenvalues and Eigenvectors",
+   "topic": "Find the directions a matrix only stretches.",
+   "standards": [
+    {
+     "code": "AHL 1.15",
+     "text": "Eigenvalues and eigenvectors; characteristic polynomial of $2\\times2$ matrices."
+    }
+   ],
+   "skills": [
+    "Interpret $Av=\\lambda v$.",
+    "Form the characteristic polynomial $\\det(A-\\lambda I)=0$ and write it as $\\lambda^2+b\\lambda+c$.",
+    "Find eigenvalues by hand and on the GDC.",
+    "Find an eigenvector for each eigenvalue (any non-zero multiple).",
+    "Know a transition matrix always has $\\lambda=1$."
+   ],
+   "explainer": {
+    "understandings": [
+     "An eigenvector keeps its direction; $\\lambda$ is how much it is stretched.",
+     "$\\det(A-\\lambda I)=\\lambda^2-(\\mathrm{tr}A)\\lambda+\\det A$.",
+     "Any non-zero multiple of an eigenvector is an eigenvector.",
+     "A transition matrix has $\\lambda=1$, and that eigenvector leads to the steady state."
+    ],
+    "misconceptions": [
+     "Subtracting $\\lambda$ from every entry instead of only the diagonal.",
+     "Stopping at the eigenvalues when the question needs eigenvectors.",
+     "Giving the zero vector as an eigenvector."
+    ],
+    "processes": [
+     "Form $A-\\lambda I$, take the determinant, solve the quadratic.",
+     "For each $\\lambda$: solve $(A-\\lambda I)v=0$ from one row, write $v$ with integer entries if asked.",
+     "Check $Av=\\lambda v$ on the GDC."
+    ],
+    "exam": [
+     "Any sign that $\\det(A-\\lambda I)=0$ was used earns the method mark.",
+     "Any multiple of the eigenvector is accepted."
+    ]
+   },
+   "resources": [],
+   "folderUrl": "https://drive.google.com/drive/folders/1eYrvilIsoSdPsDbI-5vT0i1wo-kXTbok",
+   "links": [
+    {
+     "label": "Last year's notes (old Lesson 6)",
+     "audience": "student",
+     "href": "https://drive.google.com/file/d/1_c9gaKnifdpQZrUAGUzI95L1JGstuFdx/view"
+    }
+   ],
+   "hideGuide": []
+  },
+  {
+   "id": "L9",
+   "n": 9,
+   "title": "Diagonalisation and Matrix Powers",
+   "topic": "Write $A=PDP^{-1}$ and use it for powers.",
+   "standards": [
+    {
+     "code": "AHL 1.15",
+     "text": "Diagonalisation of $2\\times2$ matrices (distinct real eigenvalues); applications to powers of $2\\times2$ matrices."
+    }
+   ],
+   "skills": [
+    "Build $P$ from eigenvectors and $D$ from eigenvalues in matching order.",
+    "Check $PDP^{-1}=A$ on the GDC.",
+    "Compute $A^n=PD^nP^{-1}$ with $D^n=\\mathrm{diag}(\\lambda_1^n,\\lambda_2^n)$.",
+    "Find a general expression for $A^n$ or a recurrence term."
+   ],
+   "explainer": {
+    "understandings": [
+     "Column $k$ of $P$ must be the eigenvector for the $k$th diagonal entry of $D$.",
+     "$A^n=PD^nP^{-1}$ because the inner $P^{-1}P$ pairs cancel.",
+     "Powers of $D$ are just powers of the eigenvalues."
+    ],
+    "misconceptions": [
+     "$P$ and $D$ in mismatched order.",
+     "Writing $A^n=P^nD^nP^{-n}$.",
+     "Raising every entry of a non-diagonal matrix to the power $n$."
+    ],
+    "processes": [
+     "List eigenpairs, place them in the same order in $P$ and $D$, verify $PDP^{-1}=A$ on the GDC.",
+     "Write $D^n$, multiply $PD^nP^{-1}$ symbolically, simplify entry by entry.",
+     "Compare with $A^n$ on the GDC for one value of $n$."
+    ],
+    "exam": [
+     "$P$ and $D$ must be consistent; the second mark is withheld otherwise.",
+     "Write $D^n$ explicitly before multiplying out $PD^nP^{-1}$; the matrices you write down carry the marks, not the GDC output."
+    ]
+   },
+   "resources": [],
+   "links": [
+    {
+     "label": "Last year's notes (old Lesson 7)",
+     "audience": "student",
+     "href": "https://drive.google.com/file/d/1-0FZa4OwDH3BnyWLv6MXeTla2h-u_4Ol/view"
+    },
+    {
+     "label": "Podcast: Markov chains and diagonalisation",
+     "audience": "student",
+     "href": "https://drive.google.com/file/d/1k0b9MAeR7BgajC6gNDZeh1c_KZOJaVTB/view"
+    }
+   ],
+   "hideGuide": []
+  },
+  {
+   "id": "L10",
+   "n": 10,
+   "title": "Steady States",
+   "topic": "Find the long-run behaviour of a Markov chain.",
+   "standards": [
+    {
+     "code": "AHL 4.19",
+     "text": "Steady state and long-term probabilities by repeated multiplication or by solving a system."
+    },
+    {
+     "code": "AHL 1.15",
+     "text": "Applications to powers of $2\\times2$ matrices."
+    }
+   ],
+   "skills": [
+    "Find the steady state three ways: high power of $T$, solve $Ts=s$ with entries summing to 1, normalise the $\\lambda=1$ eigenvector.",
+    "Take the limit of $D^n$ to get the long-run matrix.",
+    "Handle a chain with a parameter.",
+    "Interpret in context and criticise the model's assumptions."
+   ],
+   "explainer": {
+    "understandings": [
+     "The steady state satisfies $Ts=s$ and its entries sum to 1.",
+     "It is the $\\lambda=1$ eigenvector, scaled to sum to 1.",
+     "$D^n\\to\\mathrm{diag}(1,0)$, so $T^n\\to P\\,\\mathrm{diag}(1,0)\\,P^{-1}$, whose columns are the steady state."
+    ],
+    "misconceptions": [
+     "Giving the steady state from $T^{50}$ with no method shown.",
+     "Forgetting to normalise the eigenvector.",
+     "Criticising \"the model\" in general rather than a specific assumption (constant probabilities, closed population)."
+    ],
+    "processes": [
+     "Route 1: $T^{50}$ on the GDC and read a column.",
+     "Route 2: write $Ts=s$ and $s_1+s_2=1$ as a system and solve.",
+     "Route 3: take the $\\lambda=1$ eigenvector and divide by the sum of its entries.",
+     "Long-run matrix: write $\\lim D^n$, then $P\\lim D^n P^{-1}$."
+    ],
+    "exam": [
+     "A bare limit earns almost nothing: show $\\lim D^n$ or the system you solved.",
+     "The limit matrix itself must be written down to earn its mark."
+    ]
+   },
+   "resources": [],
+   "links": [
+    {
+     "label": "Last year's notes (old Lesson 8)",
+     "audience": "student",
+     "href": "https://drive.google.com/file/d/1oH2lNuAMiURKLmNYbA_Mydy9zzqKJCaB/view"
+    },
+    {
+     "label": "Podcast: Markov chains and diagonalisation",
+     "audience": "student",
+     "href": "https://drive.google.com/file/d/1k0b9MAeR7BgajC6gNDZeh1c_KZOJaVTB/view"
+    }
+   ],
+   "hideGuide": []
+  }
+ ],
+ "unitResources": [
+  {
+   "label": "3 Blue - 1 Brown \"Essence of Linear Algebra\"",
+   "audience": "student",
+   "group": "Extras",
+   "files": [
+    {
+     "ext": "gsheet",
+     "href": "https://docs.google.com/spreadsheets/d/1614BHFZiKFcyD8k0Cr2naRBCO61v9UfNLAzmoJz8pq4/view"
+    }
+   ]
+  },
+  {
+   "label": "Determinant, Inverse, Systems Recap",
+   "audience": "student",
+   "group": "Extras",
+   "files": [
+    {
+     "ext": "pdf",
+     "href": "https://drive.google.com/file/d/1sKtiJmqtQe63Y9pb9LwrVMn9-Ew4Ia23/view"
+    },
+    {
+     "ext": "gdoc",
+     "href": "https://docs.google.com/document/d/1EFBSzmntT6ulYDRM5iMuDcToj6e1gf5TCLQwc8qYa9I/view"
+    }
+   ]
+  },
+  {
+   "label": "Finding unknown parameters using matrix equations",
+   "audience": "student",
+   "group": "Extras",
+   "files": [
+    {
+     "ext": "pdf",
+     "href": "https://drive.google.com/file/d/1l_GWiiAiw7RspV3Mq2XwXHMJbQFjlapv/view"
+    },
+    {
+     "ext": "gdoc",
+     "href": "https://docs.google.com/document/d/1P-wpHl_4i8SDXImtEpfS5_mTlrNXOn2SpgWqi7kbakE/view"
+    }
+   ]
+  },
+  {
+   "label": "Markov Chain Intro",
+   "audience": "student",
+   "group": "Extras",
+   "files": [
+    {
+     "ext": "gdoc",
+     "href": "https://docs.google.com/document/d/1EsZWKxvpF5eXA2_NNTDDbKhioCeut-A6pft-HggESsM/view"
+    }
+   ]
+  },
+  {
+   "label": "Markov Chains and Matrix Diagonalization",
+   "audience": "student",
+   "group": "Extras",
+   "files": [
+    {
+     "ext": "mp3",
+     "href": "https://drive.google.com/file/d/1k0b9MAeR7BgajC6gNDZeh1c_KZOJaVTB/view"
+    },
+    {
+     "ext": "wav",
+     "href": "https://drive.google.com/file/d/1pjBxpOgwbB4eWtsSgohEZBiVNaMgqz4b/view"
+    }
+   ]
+  },
+  {
+   "label": "Matrices Concepts",
+   "audience": "student",
+   "group": "Extras",
+   "files": [
+    {
+     "ext": "pdf",
+     "href": "https://drive.google.com/file/d/1ZoJk8NluvTRXvdrw9I2mx3R64kXSV1Ua/view"
+    },
+    {
+     "ext": "gdoc",
+     "href": "https://docs.google.com/document/d/1sYhgbYwVu0k8wi9DHaodzHYyKNU-GhbbT39amNWs0NU/view"
+    }
+   ]
+  },
+  {
+   "label": "Matrices Notes Questions",
+   "audience": "student",
+   "group": "Extras",
+   "files": [
+    {
+     "ext": "gdoc",
+     "href": "https://docs.google.com/document/d/1jRYwpjuDd6136dAq4fDAMAkf4BUxG7K4Sj1JhsuOGQo/view"
+    }
+   ]
+  },
+  {
+   "label": "Matrix Arithmetic Recap",
+   "audience": "student",
+   "group": "Extras",
+   "files": [
+    {
+     "ext": "pdf",
+     "href": "https://drive.google.com/file/d/10TQYtv9O9kHiHZGpnxIowo-uIkBlCGWE/view"
+    },
+    {
+     "ext": "gdoc",
+     "href": "https://docs.google.com/document/d/14szRcjBX2YPlC-k4vd2eYkg78LusxteJ-hszEGwtgGI/view"
+    }
+   ]
+  },
+  {
+   "label": "Matrix Multiplication Warmup",
+   "audience": "student",
+   "group": "Extras",
+   "files": [
+    {
+     "ext": "pdf",
+     "href": "https://drive.google.com/file/d/1IZhTfmkv1QosehCN6zORN2KGvb5qH7XZ/view"
+    },
+    {
+     "ext": "gdoc",
+     "href": "https://docs.google.com/document/d/1zlb6T5jmsUNQTG18w2LHdSpFr5Q-2uknWGaBEPYuAHg/view"
+    }
+   ]
+  },
+  {
+   "label": "Matrix Past Paper Questions",
+   "audience": "student",
+   "group": "Extras",
+   "files": [
+    {
+     "ext": "gdoc",
+     "href": "https://docs.google.com/document/d/18jTUxsW-WedoTrjugbkDdcepkcGOK-THJ7Xqqye2N1o/view"
+    }
+   ]
+  },
+  {
+   "label": "Matrix Past Paper Questions",
+   "audience": "student",
+   "group": "Extras",
+   "files": [
+    {
+     "ext": "pdf",
+     "href": "https://drive.google.com/file/d/1Yi-ca3ZzC9qIHWsgSIIsNyTfNpIrzBdg/view"
+    }
+   ]
+  },
+  {
+   "label": "Matrix Transformation Challenge",
+   "audience": "student",
+   "group": "Extras",
+   "files": [
+    {
+     "ext": "pdf",
+     "href": "https://drive.google.com/file/d/1OoOpLF4hf1_DKUNBBNVg49EYNzwro4_m/view"
+    },
+    {
+     "ext": "gdoc",
+     "href": "https://docs.google.com/document/d/1nTU12CyLP3k1bfoXGYpCGquySpFL9Yqk8NRTyX5JN-E/view"
+    }
+   ]
+  },
+  {
+   "label": "Scrambling a Message using a Coding Matrix",
+   "audience": "student",
+   "group": "Extras",
+   "files": [
+    {
+     "ext": "pdf",
+     "href": "https://drive.google.com/file/d/18xQ_gS5a41eixPeYS5o8dUkcrSBy9Y9D/view"
+    },
+    {
+     "ext": "gdoc",
+     "href": "https://docs.google.com/document/d/186zNIgnEdUd5EAXAXAks7hD5Uq-u1_icb9mnB_ZfO0Q/view"
+    }
+   ]
+  },
+  {
+   "label": "Matrices Review Set",
+   "audience": "student",
+   "group": "Review",
+   "files": [
+    {
+     "ext": "pdf",
+     "href": "https://drive.google.com/file/d/1ycFiwSujhxccdYydVFjmwpVM5PwF5WTE/view"
+    },
+    {
+     "ext": "gdoc",
+     "href": "https://docs.google.com/document/d/1dWEVgktaoi1Fmz9mXqHG2x9JwQHBsbW6GXc8YtNmxJE/view"
+    }
+   ]
+  }
+ ]
+}
+</script>
+<!-- unit-data:end -->
+</body></html>
