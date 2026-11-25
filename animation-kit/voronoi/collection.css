@@ -25,13 +25,15 @@ h1,h2,p{margin:0}
 .ced-fig{margin:0;background:var(--surface);border-radius:7px;padding:9px 12px}
 .ced-anim .anim-grid{
   grid-template-columns:minmax(0,min(58%,var(--frame-budget))) minmax(0,1fr);
-  grid-template-rows:auto minmax(0,1fr) auto;
-  grid-template-areas:"frame head" "frame steps" "ctl steps";
+  grid-template-rows:auto minmax(0,1fr);
+  grid-template-areas:"frame head" "frame steps";
   gap:8px 16px;
 }
+/* the player (frame + its controls) is one flow column, so the controls always sit directly under the frame, however tall the step list is */
+.ced-anim .anim-player{display:flex;flex-direction:column;gap:9px;grid-area:frame;align-self:start;min-width:0}
 .ced-anim .anim-frame{min-width:0;width:100%}
 [data-stage]{height:100%;width:100%}
-.anim-toolbar{grid-area:ctl;display:flex;align-items:center;gap:9px;flex-wrap:wrap;min-width:0}
+.anim-toolbar{display:flex;align-items:center;gap:9px;flex-wrap:wrap;min-width:0}
 .anim-mode-row{flex:none}
 .anim-bar{flex:1;gap:7px;min-width:0}
 .anim-mode button,.anim-tabs button,.anim-bar button,.anim-speed select,.anim-count{font-size:16px}
@@ -80,7 +82,7 @@ button{cursor:pointer}
   .ced-fig{padding:6px}
   .ced-anim .anim-grid{
     grid-template-columns:minmax(0,1fr);grid-template-rows:auto;
-    grid-template-areas:"frame" "ctl" "head" "steps";gap:6px;
+    grid-template-areas:"frame" "head" "steps";gap:6px;
   }
   .ced-anim .anim-frame{width:min(100%,var(--frame-budget));justify-self:center}
   .anim-toolbar{gap:5px}
@@ -119,8 +121,8 @@ button{cursor:pointer}
   .animation-picker select{width:min(29vw,246px)}
   .ced-anim .anim-grid{
     grid-template-columns:minmax(0,min(46%,max(226px,var(--frame-budget)))) minmax(0,1fr);
-    grid-template-rows:auto minmax(0,1fr) auto;
-    grid-template-areas:"frame head" "frame steps" "ctl steps";
+    grid-template-rows:auto minmax(0,1fr);
+    grid-template-areas:"frame head" "frame steps";
     gap:5px 9px;
   }
   .ced-anim .anim-frame{width:min(100%,var(--frame-budget));justify-self:center}

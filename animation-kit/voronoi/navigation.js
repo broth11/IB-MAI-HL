@@ -16,7 +16,12 @@ function fitActivePanel(){
     const frame=panels[selected]?.querySelector('.anim-frame');
     if(!frame || !frame.offsetHeight) return;
     const available=Math.floor(window.visualViewport?.height||innerHeight);
-    const nonFrame=layout.offsetHeight-frame.offsetHeight;
+    // Space the player must leave free: the header above it and its own controls below it. The step list and the "Remember" line
+    // sit beside or under the step list, and scroll with the page; counting them shrank the player to the minimum on long lists.
+    const fr=frame.getBoundingClientRect(), lr=layout.getBoundingClientRect();
+    const toolbar=frame.closest('.anim-grid')?.querySelector('.anim-toolbar');
+    const bottom=toolbar&&toolbar.offsetHeight?Math.max(fr.bottom,toolbar.getBoundingClientRect().bottom):fr.bottom;
+    const nonFrame=(fr.top-lr.top)+(bottom-fr.bottom);
     const mobile=innerWidth<=760;
     const compact=compactLayout.matches;
     const target=Math.max(shortLandscape.matches?145:compact?163:mobile?190:238, Math.min(780,available-nonFrame-4));
