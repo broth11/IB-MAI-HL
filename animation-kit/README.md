@@ -27,7 +27,7 @@ Each animation in the set has:
 | **What you see** tab | A `see` paragraph and a `notice` list: what the picture shows and why it is true. |
 | **Remember** tab and line | The one-sentence takeaway, also printed under the player. |
 | Held summary | The last step recomposes the whole idea and holds, so a paused still frame teaches the concept on its own. |
-| No-JS fallback | The final picture and the `see` text, in a `<noscript>`. Reduced-motion visitors get Step images only. |
+| No-JS fallback | The final picture and the `see` text, in a `<noscript>`. Reduced-motion visitors open on Step images, and the Animation button stays available. |
 
 The page header reads **"Voronoi Diagrams: *Sketch title*"** on the top row, with a narrow animation dropdown and previous/next arrows at the
 right. Only one animation shows at a time, and the page sizes the square player so the whole set (player, toolbar, steps) fits on screen

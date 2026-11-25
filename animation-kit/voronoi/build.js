@@ -151,6 +151,14 @@ const katexCss=read(katexDir,'katex.min.css').replace(/url\((fonts\/[^)]+\.woff2
   return 'url(data:font/woff2;base64,'+fs.readFileSync(path.join(katexDir,file)).toString('base64')+') format("woff2")';
 });
 const katexJs=read(katexDir,'katex.min.js').replace(/<\/script/gi,'<\\/script');
+// Reduced motion (phones/iPads with Reduce Motion on): open on Step images, but keep the Animation / Step images toggle visible
+// and let Animation load and play when the visitor picks it. The shared anim_block.js still treats reduced motion as "no toggle".
+player=substitute(player,'if (reduce) modeBox.hidden = true;          // no motion for these visitors: step images only',
+  '// reduced motion: opens on Step images; the Animation button stays available');
+player=substitute(player,'if (reduce || frame.anim) return;','if (frame.anim) return;');
+player=substitute(player,'  if (!reduce) {\n    if ("IntersectionObserver" in window) {','  {\n    if ("IntersectionObserver" in window) {');
+player=substitute(player,'else if (a) { a.seek(chapters[k].t || 0); if (visible) a.play(); playing = true; showPlayControl(true); }',
+  'else { if (reduce) load(); var b = A(); if (b) { b.seek(chapters[k].t || 0); if (visible) b.play(); } playing = true; showPlayControl(true); }');
 const document=`<!doctype html>
 <html lang="en">
 <head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
