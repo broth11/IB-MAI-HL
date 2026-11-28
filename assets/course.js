@@ -27,6 +27,12 @@ window.UNIT_COURSE = {
    "page": "unit-4.html"
   },
   {
+   "id": "Unit 4B: Voronoi Diagrams",
+   "number": "4B",
+   "title": "Voronoi Diagrams",
+   "page": "unit-4b.html"
+  },
+  {
    "id": "Unit 5: Modeling Real-Life Phenomena",
    "number": "5",
    "title": "Modeling Real-Life Phenomena",
