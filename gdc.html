@@ -321,6 +321,13 @@ body[data-view=units] #view-units,body[data-view=topics] #view-topics{display:bl
 .upn a:hover{box-shadow:1px 1px 0 var(--orange);transform:translate(2px,2px)}
 .unit-spots-wrap{margin-top:34px}
 .spots-h{font:900 22px var(--sans);text-transform:uppercase;margin:0 0 14px}
+.spot.vids{grid-column:1/-1;min-height:0}
+.vgroups{columns:3 280px;column-gap:24px}
+.vgroup{break-inside:avoid;margin:0 0 12px}
+.vgroup h3{font:700 13px/1.35 var(--sans);margin:0 0 9px}
+.vgroup h3 a{color:var(--ink);text-decoration:none}
+.vgroup h3 a:hover{text-decoration:underline}
+.vgroup h3 b{font-family:var(--mono);margin-right:4px}
 @media (max-width:760px){.choose,.spots{grid-template-columns:1fr}.usyl ul{columns:1}.pick,.urail a,.uchip{min-height:44px}.urail a,.tsubs a.uchip{display:inline-flex;align-items:center}}
 @media (prefers-reduced-motion:reduce){.pick,.ucard,.upn a{transition:none}}
 .ced-units a.unit.on{background:var(--blue);color:#fff}
