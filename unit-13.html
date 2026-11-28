@@ -146,7 +146,7 @@ a.chip{color:inherit;text-decoration:none}a.chip:hover,.stds dt a:hover{backgrou
 /* Lesson header at least as tall as the QR code, so the files and links start below it (22/11/2026) */
 .card-top,.lr-head{min-height:104px}
 @media(max-width:760px){.card-top,.lr-head{min-height:85px}}
-</style></head>
+.card .topfiles{margin-top:18px}.card .topfiles+.cut+.chips{margin-top:0}.sheet #s-files{margin-bottom:30px}</style></head>
 <body>
 <div class="topbar"><div class="topbar-in"><span class="course">IB MAI HL</span><nav aria-label="Units"><button type="button" class="u" data-href="index.html">Home</button><button type="button" class="u " data-href="unit-1.html">1</button><button type="button" class="u " data-href="unit-2.html">2</button><button type="button" class="u " data-href="unit-3.html">3</button><button type="button" class="u " data-href="unit-3b.html">3B</button><button type="button" class="u " data-href="unit-4.html">4</button><button type="button" class="u " data-href="unit-4b.html">4B</button><button type="button" class="u " data-href="unit-5.html">5</button><button type="button" class="u " data-href="unit-6.html">6</button><button type="button" class="u " data-href="unit-7.html">7</button><button type="button" class="u " data-href="unit-8.html">8</button><button type="button" class="u " data-href="unit-9.html">9</button><button type="button" class="u " data-href="unit-10.html">10</button><button type="button" class="u " data-href="unit-11.html">11</button><button type="button" class="u " data-href="unit-12.html">12</button><button type="button" class="u on" data-href="unit-13.html">13</button><button type="button" class="u " data-href="unit-14.html">14</button><button type="button" class="u " data-href="unit-15.html">15</button><button type="button" class="u " data-href="unit-16.html">16</button><button type="button" class="u " data-href="unit-17.html">17</button><button type="button" class="u " data-href="unit-18.html">18</button></nav></div></div>
 <div id="app" class="wrap"></div>
@@ -196,10 +196,11 @@ function partHead(p,n){return '<div class="part" id="p'+p.code+'"><div class="co
 
 function overviewCard(l){
   return '<article class="card" data-id="'+l.id+'">'+qrBtn(l)+'<div class="card-top" role="link" tabindex="0" data-go="#'+l.id+'">'+numCell(l)+titleBlock(l)+'</div>'+
+   '<div class="topfiles">'+cols(l)+'</div><div class="cut"></div>'+
    '<div class="chips"><span class="lab">Syllabus</span>'+chips(l)+'</div>'+
    '<div class="card-body"><div class="blk" role="link" tabindex="0" data-go="#'+l.id+'/skills"><h3>Skills</h3>'+list(l.skills.slice(0,3))+(l.skills.length>3?'<p class="more">+'+(l.skills.length-3)+' more</p>':'')+'</div>'+
    '<div class="blk" role="link" tabindex="0" data-go="#'+l.id+'"><h3>Summary</h3><p>'+fmt(l.summary)+'</p></div></div>'+
-   '<div class="cut"></div>'+cols(l)+'</article>';
+   '</article>';
 }
 function lensRow(l,k){
   var body=k==='files'?cols(l):k==='standards'?std(l,true):list(l[k]);
@@ -222,12 +223,12 @@ function sheet(){
    (pv?'<button type="button" data-go="#'+pv.id+'" title="'+esc(pv.title)+'">&lsaquo; '+esc(pv.code)+'</button>':'<span class="off">&lsaquo;</span>')+
    (nx?'<button type="button" data-go="#'+nx.id+'" title="'+esc(nx.title)+'">'+esc(nx.code)+' &rsaquo;</button>':'<span class="off">&rsaquo;</span>')+'</span></div>'+
    '<header class="s-head">'+numCell(l)+'<div><span class="code-tag">Lesson '+esc(l.code)+' · '+esc(l.partTitle)+'</span><h2>'+fmt(l.title)+'</h2></div></header>'+
+   '<section class="sec'+(state.section==='files'?' focus':'')+'" id="s-files">'+cols(l)+'</section>'+
    '<div class="s-grid"><div class="s-main">'+
    '<section class="sec"><h3>Summary</h3><p>'+fmt(l.summary)+'</p></section>'+
    '<div class="quad">'+sec('understandings',list(l.understandings))+sec('misconceptions',list(l.misconceptions))+sec('processes',list(l.processes))+sec('exam',list(l.exam))+'</div>'+
    sec('skills',list(l.skills))+'</div>'+
    '<aside class="s-side">'+sec('standards',std(l))+'</aside></div>'+
-   '<section class="sec'+(state.section==='files'?' focus':'')+'" id="s-files">'+cols(l)+'</section>'+
    '</div></div>';
 }
 function draw(){
@@ -449,9 +450,15 @@ body[data-view=units] #view-units,body[data-view=topics] #view-topics{display:bl
 .spot-d{font-size:13px;color:#555;margin:0 0 14px}
 .spot-empty{font:600 13px var(--mono);border:2px dashed var(--grid);padding:16px;text-align:center;color:#666;margin:0}
 .spot-files{list-style:none;padding:0;margin:0}
-.spot-files li{padding:3px 0}
+.spot-files li{padding:0;margin:0 0 10px}
 .spot-files li::before,.usyl li::before{display:none!important;content:none!important}
-.spot-files a{font-weight:700;color:var(--ink)}
+.spot-files a{display:flex;align-items:center;gap:10px;min-height:42px;padding:8px 12px;font:800 13px/1.2 var(--sans);text-transform:uppercase;letter-spacing:.03em;color:var(--ink);text-decoration:underline;background:#fff;border:2px solid var(--ink);border-radius:4px;box-shadow:4px 4px 0 var(--ink);transition:transform .12s,box-shadow .12s}
+.spot-files a span{min-width:0;overflow-wrap:anywhere}
+.spot-files svg{flex:none;color:var(--blue,#4a5cf0)}
+.spot-files a:hover{transform:translate(2px,2px);box-shadow:2px 2px 0 var(--ink);background:var(--blue,#4a5cf0);color:#fff}
+.spot-files a:hover svg{color:#fff}
+.spot-files a:active{transform:translate(4px,4px);box-shadow:0 0 0 var(--ink)}
+@media (prefers-reduced-motion:reduce){.spot-files a{transition:none}}
 .usyl{background:#fff;border:2px solid var(--ink);padding:16px 20px;margin:0 0 26px}
 .usyl h2{font:900 16px var(--sans);text-transform:uppercase;margin:0 0 10px}
 .usyl ul{list-style:none;padding:0;margin:0;columns:2;column-gap:28px}

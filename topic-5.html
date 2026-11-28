@@ -300,9 +300,15 @@ body[data-view=units] #view-units,body[data-view=topics] #view-topics{display:bl
 .spot-d{font-size:13px;color:#555;margin:0 0 14px}
 .spot-empty{font:600 13px var(--mono);border:2px dashed var(--grid);padding:16px;text-align:center;color:#666;margin:0}
 .spot-files{list-style:none;padding:0;margin:0}
-.spot-files li{padding:3px 0}
+.spot-files li{padding:0;margin:0 0 10px}
 .spot-files li::before,.usyl li::before{display:none!important;content:none!important}
-.spot-files a{font-weight:700;color:var(--ink)}
+.spot-files a{display:flex;align-items:center;gap:10px;min-height:42px;padding:8px 12px;font:800 13px/1.2 var(--sans);text-transform:uppercase;letter-spacing:.03em;color:var(--ink);text-decoration:underline;background:#fff;border:2px solid var(--ink);border-radius:4px;box-shadow:4px 4px 0 var(--ink);transition:transform .12s,box-shadow .12s}
+.spot-files a span{min-width:0;overflow-wrap:anywhere}
+.spot-files svg{flex:none;color:var(--blue,#4a5cf0)}
+.spot-files a:hover{transform:translate(2px,2px);box-shadow:2px 2px 0 var(--ink);background:var(--blue,#4a5cf0);color:#fff}
+.spot-files a:hover svg{color:#fff}
+.spot-files a:active{transform:translate(4px,4px);box-shadow:0 0 0 var(--ink)}
+@media (prefers-reduced-motion:reduce){.spot-files a{transition:none}}
 .usyl{background:#fff;border:2px solid var(--ink);padding:16px 20px;margin:0 0 26px}
 .usyl h2{font:900 16px var(--sans);text-transform:uppercase;margin:0 0 10px}
 .usyl ul{list-style:none;padding:0;margin:0;columns:2;column-gap:28px}
